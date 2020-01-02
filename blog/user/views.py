@@ -4,6 +4,7 @@ from django.http import JsonResponse
 import json
 import hashlib
 
+from btoken.views import make_token
 from .models import UserProfile
 
 # Create your views here.
@@ -59,6 +60,7 @@ class UserRegisterView(View):
                 email=email
             )
         except Exception as e:
+            # logging
             return JsonResponse({'code':207,'error':'server is busy!'})
             # 生成token
         token = make_token({'username':username})
@@ -69,9 +71,3 @@ class UserRegisterView(View):
                 'token':token.decode()
             }
             })
-def make_token(payload,exp=24*3600):
-    import jwt
-    import time 
-    key = '123321' 
-    payload['exp'] = time.time() + exp
-    return jwt.encode(payload,keys,algorithm='HS256')

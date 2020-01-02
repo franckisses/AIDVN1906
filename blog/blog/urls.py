@@ -20,6 +20,7 @@ from .views import test,index
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^v1/users',include('user.urls')),
+    url(r'^v1/tokens',include('btoken.urls')),
     url(r'^test_api$',test),
     url(r'^index$',index)
 ]
