@@ -43,7 +43,7 @@ class UserRegisterView(View):
         # 密码１　和　密码２　需要一致
         if password_1 != password_2:
             return JsonResponse({'code':205,'error':'different password!'})
-        old_user = UserProfile.objects.get(username=username)
+        old_user = UserProfile.objects.filter(username=username)
         if old_user:
             return JsonResponse({'code':206,'error':'user already existed!'})
         m = hashlib.md5()
@@ -58,16 +58,20 @@ class UserRegisterView(View):
                 info=info, 
                 email=email
             )
-        except Exception as e：
+        except Exception as e:
             return JsonResponse({'code':207,'error':'server is busy!'})
-            #  21:00 回来
-
-
-
-
-            
-
-        
-        print(json_obj ,type(json_obj))
-
-        return JsonResponse({'code':200})
+            # 生成token
+        token = make_token({'username':username})
+        return JsonResponse({
+            'code':200,
+            'username':username,
+            'data':{
+                'token':token.decode()
+            }
+            })
+def make_token(payload,exp=24*3600):
+    import jwt
+    import time 
+    key = '123321' 
+    payload['exp'] = time.time() + exp
+    return jwt.encode(payload,keys,algorithm='HS256')
