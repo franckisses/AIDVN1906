@@ -13,12 +13,49 @@ class UserRegisterView(View):
     """
     通过类视图来写view
     """
-    def get(self,request):
-        pass
+    def get(self,request,username=None):
+        # 判断前端是否传递用户名
+        if username:
+            try:
+                user = UserProfile.objects.get(username=username)
+            except Exception as e:
+                print('GET方法获取用户名',e)
+                user = None
+            if not user:
+                return JsonResponse({'code':214,'error':'user not existed!'})
+            # 获取前端传递的查询字符串：
+            if request.GET.keys():
+                data = {}
+                for s in request.GET.keys(): # s ---str
+                    if hasattr(user,s):
+                        each_data = getattr(user,s)
+                        if 'avatar' == s:
+                            data[s] = str(each_data)
+                        else:
+                            data[s] = each_data
+                return JsonResponse({
+                    'code':200,
+                    'username':username,
+                    'data': data
+                })
+            # 没有查询字符串，返全量数据
+            return JsonResponse({
+                'code':200,
+                'username':user.username,
+                'data':{
+                    'nickname':user.nickname,
+                    'avatar':str(user.avatar),
+                    'sign':user.sign,
+                    'info':user.info
+                }
+            })
+        else:
+            return JsonResponse({'code':213,'error':'please give me username'})
+        
 
     def post(self,request):
         """
-        1. 获取浏览器前段传递的数据
+        1. 获取浏览器前端传递的数据
         2. 验证前端传递的数据。
         3. 判断用户是不是在我们数据库中存在。
         4. 判断用户密码是否合法。对密码进行处理
