@@ -4,6 +4,7 @@ import json
 import hashlib
 
 from user.models import UserProfile
+from django.conf import settings
 # Create your views here.
 
 
@@ -49,7 +50,7 @@ def tokens(request):
 def make_token(payload,exp=24*3600):
     import jwt
     import time 
-    keys = '123321' 
+    # from django.conf import settings
     payload['exp'] = time.time() + exp
-    return jwt.encode(payload,keys,algorithm='HS256')
+    return jwt.encode(payload,settings.TOKEN_KEYS,algorithm='HS256')
 

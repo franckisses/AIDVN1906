@@ -6,6 +6,7 @@ import hashlib
 
 from btoken.views import make_token
 from .models import UserProfile
+from utils.loging_check import loging_check
 
 # Create your views here.
 
@@ -108,3 +109,29 @@ class UserRegisterView(View):
                 'token':token.decode()
             }
             })
+
+    @loging_check
+    def put(self,request,username):
+        #更新用户个人数据
+        # 后端接口中传递的数据中的username 和token中取来的username做一次校验
+        token_username = request.user.username 
+        if username != token_username:
+            return JsonResponse({'code':217,'error':'requset error'})
+        json_obj = request.body
+        if not json_obj:
+            return JsonResponse({'code':218,'error':'please give data!'})
+        json_dict = json.loads(json_obj)
+        info = json_dict.get('info',None)
+        sign = json_dict.get('sign',None)
+        nickname = json_dict.get('nickname',None)
+        if not info or not sign or not nickname:
+            return JsonResponse({'code':219,'error':'i need more data!'})
+        user = request.user
+        try:
+            user.sign = sign
+            user.info = info
+            user.nickname = nickname
+            user.save()
+        except Exception as e:
+            return JsonResponse({'code':220,'error':'user info modify failed!'})
+        return JsonResponse({'code':200,'username':user.username})
