@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'user',
-    'btoken'
+    'btoken',
+    'topic'
 ]
 
 MIDDLEWARE = [
@@ -153,3 +154,8 @@ CORS_ALLOW_HEADERS = (
 APPEND_SLASH = False
 
 TOKEN_KEYS = '123321'
+
+# 媒体资源的路径 # http://127.0.0.1:8000/media
+MEDIA_URL = '/media/'
+# 服务器上面的目录
+MEDIA_ROOT = os.path.join(BASE_DIR,'media/')

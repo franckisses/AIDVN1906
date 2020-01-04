@@ -112,6 +112,7 @@ class UserRegisterView(View):
 
     @loging_check
     def put(self,request,username):
+        # PUT http://127.0.0.1:8000/v1/users/username
         #更新用户个人数据
         # 后端接口中传递的数据中的username 和token中取来的username做一次校验
         token_username = request.user.username 
@@ -135,3 +136,21 @@ class UserRegisterView(View):
         except Exception as e:
             return JsonResponse({'code':220,'error':'user info modify failed!'})
         return JsonResponse({'code':200,'username':user.username})
+
+
+class UserAvatarView(View):
+
+    @loging_check
+    def post(self,request,username):
+        # TODO 检查username 是否一致
+        #  获取用户头像二进制文件
+        avatar = request.FILES.get('avatar',None)
+        return JsonResponse({'code':222})
+        if not avatar:
+            return JsonResponse({'code':221,'error':'please give me avatar!'})
+        try:
+            request.user.avatar = avatar
+            request.user.save() 
+        except Exception as e:
+            return JsonResponse({'code':222,'error':'modify avatar failed!'})
+        return JsonResponse({'code':200,'username':request.user.username})

@@ -15,12 +15,17 @@ Including another URLconf
 """
 from django.conf.urls import url,include
 from django.contrib import admin
-
+from django.conf.urls.static import static
+from django.conf import settings
 from .views import test,index
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^v1/users',include('user.urls')),
     url(r'^v1/tokens',include('btoken.urls')),
+    url(r'^v1/topics',include('topic.urls')),
     url(r'^test_api$',test),
     url(r'^index$',index)
 ]
+
+# 配置媒体资源的路由
+urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
