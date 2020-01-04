@@ -26,3 +26,23 @@ def loging_check(func):
         request.user = user
         return func(self,request,*args,**kwargs)
     return wrapper
+
+
+
+def get_user_by_request(request):
+    """
+    通过reuqest 判断登录状态： 获取用户名
+    """
+    token = request.META.get('HTTP_AUTHORIZATION')
+    if not token:
+        return None
+    try:
+        res = jwt.decode(token,settings.TOKEN_KEYS,algorithms='HS256')
+    except Exception as e:
+        return None
+    username = res['username']
+    try:
+        user = UserProfile.objects.get(username=username)
+    except Exception as e:
+        return None
+    return user

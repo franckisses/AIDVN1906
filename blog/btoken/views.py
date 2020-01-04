@@ -50,7 +50,7 @@ def tokens(request):
 def make_token(payload,exp=24*3600):
     import jwt
     import time 
-    # from django.conf import settings
+    # 
     payload['exp'] = time.time() + exp
     return jwt.encode(payload,settings.TOKEN_KEYS,algorithm='HS256')
 
