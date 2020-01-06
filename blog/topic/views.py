@@ -69,6 +69,34 @@ class TopicView(View):
             return JsonResponse({'code':302,'error':'create blog failed!'})
         return JsonResponse({'code':200,'username':request.user.username})
 
+    @loging_check
+    def delete(self,request,username):
+        """
+        博客删除功能接口
+        http://127.0.0.1:8000/v1/topics/username?topic_id=x
+        """
+        username_token = request.user.username
+        if username != username_token:
+            return JsonResponse({'code':304,'error':'you cant do that!'})
+        topic_id = request.GET.get('topic_id',None)
+        # TODO 检查前段传递的查询字符串是否存在
+        try:
+            topic = Topic.objects.get(id=topic_id)
+        except Exception as e:
+            return JsonResponse({'code':305,'error':'blog is not existed!'})
+        #检查是否为自己的博客：
+        if topic.author.username != username:
+            return JsonResponse({'code':306,'error':'you can do that!'})
+        #　TODO : 可以在博客表中再天剑一个字段：　is_active  True/ False 
+        topic.delete()
+        return JsonResponse({'code':200,'data':'删除成功'})
+
+
+
+
+
+
+
 
 def make_topics(author,topics):
     import time
