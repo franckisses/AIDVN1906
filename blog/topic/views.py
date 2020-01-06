@@ -194,6 +194,6 @@ def  make_topic_res(author,author_topic,is_self):
     ### 留言相关的写为空
     res['data']['message'] = []
     res['data']['messages_count'] = 0
-    return res
+    return res  
 
 

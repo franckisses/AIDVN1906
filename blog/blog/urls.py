@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^v1/users',include('user.urls')),
     url(r'^v1/tokens',include('btoken.urls')),
     url(r'^v1/topics',include('topic.urls')),
+    url(r'^v1/messages',include('message.urls')),
     url(r'^test_api$',test),
     url(r'^index$',index)
 ]
