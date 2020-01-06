@@ -18,6 +18,8 @@ class TopicView(View):
         用户未登录
             获取全量的公开的数据
             获取部分数据 tec no-tec
+            ＃获取博客详情页面内容：
+            http://127.0.0.1:8000/v1/topics/franck?t_id=1   
         """
         authors = UserProfile.objects.filter(username=username)
         if not authors:
@@ -27,21 +29,44 @@ class TopicView(View):
         visitor_name = None
         if visitor:
             visitor_name = visitor.username
-        category = request.GET.get('category',None)
-        if category in ['tec','no-tec']:
+        t_id = request.GET.get('t_id',None)
+        # TODO 判断用传递的博客ID是否存在 
+        if t_id:
+            id = int(t_id)
+            # 如果 用户访问自己的博客，不用去查看是否否公开
+            #       访客来访问的话，那么我们要对权限进行验证
+            is_self = False
             if username == visitor_name:
-                topics = Topic.objects.filter(author_id=username,category=category)
+                is_self = True
+                # 认为是登录的
+                try:
+                    author_topic = Topic.objects.get(id=t_id)
+                except Exception as e:
+                    return JsonResponse({'code':307,'error':'no such topic'})
             else:
-                topics = Topic.objects.filter(author_id=username,category=category,limit='public')        
+                # 认为非登录的状态
+                try:
+                    author_topic = Topic.objects.get(id=t_id,limit='public')
+                except Exception as e:
+                    return JsonResponse({'code':308,'error':'you cant read it！'})
+            res = make_topic_res(author,author_topic,is_self)
+            return JsonResponse(res)
         else:
-            # 判断用户是否是一致：
-            if username == visitor_name:
-                topics = Topic.objects.filter(author_id=username)
+            category = request.GET.get('category',None)
+            if category in ['tec','no-tec']:
+                if username == visitor_name:
+                    topics = Topic.objects.filter(author_id=username,category=category)
+                else:
+                    topics = Topic.objects.filter(author_id=username,category=category,limit='public')        
             else:
-                topics = Topic.objects.filter(author_id=username,limit='public')        
-        res = make_topics(author,topics)
-        return JsonResponse(res)
-    
+                # 判断用户是否是一致：
+                if username == visitor_name:
+                    topics = Topic.objects.filter(author_id=username)
+                else:
+                    topics = Topic.objects.filter(author_id=username,limit='public')        
+            res = make_topics(author,topics)
+            return JsonResponse(res)
+        
     @loging_check
     def post(self, request,username):
         json_obj = request.body
@@ -117,3 +142,58 @@ def make_topics(author,topics):
     res['data'] = data
 
     return res
+
+
+def  make_topic_res(author,author_topic,is_self):
+    """
+    组织博客详情页面的数据
+    """
+    if is_self:
+        # 查询博主本人的博客
+        #　获取前一篇博客：lt ---less than 
+        last_topic = Topic.objects.filter(
+            id__lt=author_topic.id,author=author).last()
+        # 获取下一篇博客：
+        next_topic = Topic.objects.filter(
+            id__gt=author_topic.id,author=author).first()
+    else:
+        # 查询博主本人的博客
+        #　获取前一篇博客：lt ---less than 
+        last_topic = Topic.objects.filter(
+            id__lt=author_topic.id,author=author,limit='public').last()
+        # 获取下一篇博客：
+        next_topic = Topic.objects.filter(
+            id__gt=author_topic.id,author=author,limit='public').first()
+    # 判断是否存在前一篇博客和后一篇博客
+    if next_topic:
+        next_id = next_topic.id
+        next_title = next_topic.title
+    else:
+        next_id = None
+        next_title = None
+    if last_topic:
+        last_id = last_topic.id
+        last_title = last_topic.title
+    else:
+        last_id = None
+        last_title = None
+
+    #  组织前端数据
+    res = {'code':200,'data':{}}
+    res['data']['nickname'] =author.nickname
+    res['data']['title'] = author_topic.title
+    res['data']['introduce'] = author_topic.introduce
+    res['data']['category'] = author_topic.category
+    res['data']['content'] = author_topic.content
+    res['data']['author'] =author.nickname
+    res['data']['created_time'] = author_topic.created_time.strftime('%Y-%m-%d %H:%M:%S')
+    res['data']['last_id'] = last_id
+    res['data']['last_title'] = last_title
+    res['data']['next_id'] = next_id
+    res['data']['next_title'] = next_title
+    ### 留言相关的写为空
+    res['data']['message'] = []
+    res['data']['messages_count'] = 0
+    return res
+
+
