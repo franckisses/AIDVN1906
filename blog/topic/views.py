@@ -5,6 +5,7 @@ import json
 from .models import Topic
 from utils.loging_check import loging_check,get_user_by_request
 from user.models import UserProfile
+from message.models import Message
 # Create your views here.
 
 
@@ -117,12 +118,6 @@ class TopicView(View):
         return JsonResponse({'code':200,'data':'删除成功'})
 
 
-
-
-
-
-
-
 def make_topics(author,topics):
     import time
     res = {'code':200,'data':{}}
@@ -177,6 +172,36 @@ def  make_topic_res(author,author_topic,is_self):
     else:
         last_id = None
         last_title = None
+    all_message = Message.objects.filter(
+        topic=author_topic).order_by('-created_time')
+
+    msg_list = []
+    reply_dict = {}
+    msg_count = 0
+    for msg in all_message:
+        if msg.parent_message == 0:
+            msg_count += 1
+            msg_list.append({
+                'id':msg.id,
+                'content':msg.content,
+                'publisher':msg.publisher.username,
+                'created_time':msg.created_time.strftime('%Y-%m-%d %H:%M:%S'),
+                'publisher_avatar':str(msg.publisher.avatar),
+                'reply':[] # {1:{}}
+            })
+        else:
+            reply_dict.setdefault(msg.parent_message,[])# {1:{}}
+            reply_dict[msg.parent_message].append({
+                'id':msg.id,
+                'content':msg.content,
+                'publisher':msg.publisher.username,
+                'created_time':msg.created_time.strftime('%Y-%m-%d %H:%M:%S'),
+                'publisher_avatar':str(msg.publisher.avatar)
+            })
+        for _msg in msg_list:
+            if _msg['id'] in reply_dict:
+                _msg['reply'] = reply_dict[_msg['id']]
+        # 序列化功能
 
     #  组织前端数据
     res = {'code':200,'data':{}}
@@ -192,8 +217,36 @@ def  make_topic_res(author,author_topic,is_self):
     res['data']['next_id'] = next_id
     res['data']['next_title'] = next_title
     ### 留言相关的写为空
-    res['data']['message'] = []
-    res['data']['messages_count'] = 0
+    res['data']['message'] = msg_list
+    res['data']['messages_count'] = msg_count
+    print(res)
     return res  
 
 
+# "messages": [{
+# 		"id": 1,
+# 		"content": "<p>写得不错啊，大哥<br></p>",
+# 		"publisher": "guoxiaonao",
+# 		"publisher_avatar": "avatar/头像 2.png",
+#         "created_time": "2019-06-03 07:52:02"
+# 		"reply": [{
+# 			"publisher": "guoxiaonao",
+# 			"publisher_avatar": "avatar/头像 2.png",
+# 			"created_time": "2019-06-03 07:52:16",
+# 			"content": "谢谢您的赏识",
+# 			"msg_id": 2
+# 		},
+#         {
+# 		"id": 3,
+# 		"content": "<p>写得不错啊，大哥<br></p>",
+# 		"publisher": "guoxiaonao",
+# 		"publisher_avatar": "avatar/头像 2.png",
+#         "created_time": "2019-06-03 07:52:02"
+# 		"reply": [{
+# 			"publisher": "guoxiaonao",
+# 			"publisher_avatar": "avatar/头像 2.png",
+# 			"created_time": "2019-06-03 07:52:16",
+# 			"content": "谢谢您的赏识",
+# 			"msg_id": 4
+#		}],
+#	}
