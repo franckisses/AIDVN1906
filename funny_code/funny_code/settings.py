@@ -143,7 +143,7 @@ CORS_ALLOW_HEADERS = (
     'x-csrftoken',
     'x-requested-with'
 )
-APPEND_SLASH =　False
+APPEND_SLASH = False
 # 配置django 自带的邮件发送
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # 邮件服务器地址
@@ -155,6 +155,6 @@ EMAIL_HOST_USER = '249155836@qq.com'
 # 是否使用加密协议
 EMAIL_HOST_TLS = False
 # 邮箱的密码（授权码）
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_PASSWORD = 'oqpwdtxlwtuicajb'
 #　收件人的显示信息
 EMAIL_FROM = 'VIPAIDFIGHTING<249155836@qq.com>'
