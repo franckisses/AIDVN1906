@@ -13,4 +13,6 @@ class Message(models.Model):
     class Meta:
         db_table = 'message'
 
+# python3 manage.py makemigrations
+# python3 manage.py migrate
 

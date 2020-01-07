@@ -32,6 +32,18 @@ class EmailView(View):
                 return JsonResponse({'code':102,'error':'send mail failed!'})
             return JsonResponse({'code':200,'data':'快去看邮件吧！'})
         elif int(send_type) == 2:
-            pass
+            # 发送邮箱验证码：
+            code = '%d'%random.randint(100000,999999)   
+            subject = 'AID1906邮箱验证码'
+
+            html_message = '<p>尊敬的学员，您好：</p>'\
+                '<p>欢迎来到老龚课堂</p>'\
+                '<p>您的邮箱为：%s,您的邮箱验证码为:<b>%s</b>,该验证码10分钟之内有效</p>'%(email,code)
+            try:
+                send_mail(subject,'',settings.EMAIL_FROM,[email],
+                html_message=html_message)
+            except Exception as e:
+                return JsonResponse({'code':103,'error':'send mail failed!'})
+            return JsonResponse({'code':200,'data':'快去看邮件吧'})
         else:
             return JsonResponse({'code':100,'error':'code 有误！'})
