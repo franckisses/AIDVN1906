@@ -68,3 +68,13 @@ class WeiboUrlView(View):
         except Exception as e:
             return JsonResponse({'code':203,'error':'something error'})
         return JsonResponse({'code':200,'oauth_url':oauth_url})
+
+class WeiboUserView(View):
+    def get(self,request):
+        # TODO  判断前段传递的code
+        code = request.GET.get('code',None)
+        try:
+            oauth = OauthWeibo()
+            weibodata = oauth.get_access_token(code)
+        except Exception as e:
+            return JsonResponse({'code':204,'error':'cant get access token'})
