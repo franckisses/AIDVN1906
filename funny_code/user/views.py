@@ -6,6 +6,7 @@ from django.core.mail import send_mail
 import base64
 import random 
 from django.conf import settings
+from .weiboapi import OauthWeibo
 # Create your views here.
 
 
@@ -50,3 +51,20 @@ class EmailView(View):
             return JsonResponse({'code':200,'data':'快去看邮件吧'})
         else:
             return JsonResponse({'code':100,'error':'code 有误！'})
+
+"""
+# https://api.weibo.com/oauth2/authorize?
+client_id=YOUR_CLIENT_ID&
+response_type=code&
+redirect_uri=YOUR_REGISTERED_REDIRECT_URI
+"""
+
+class WeiboUrlView(View):
+    def get(self,requset):
+        # http://127.0.0.1:8000/v1/users/weibo
+        try:
+            oauth = OauthWeibo()
+            oauth_url = oauth.get_weibo_url()
+        except Exception as e:
+            return JsonResponse({'code':203,'error':'something error'})
+        return JsonResponse({'code':200,'oauth_url':oauth_url})

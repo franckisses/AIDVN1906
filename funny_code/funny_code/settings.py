@@ -78,8 +78,12 @@ WSGI_APPLICATION = 'funny_code.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'funny',
+        'HOST': 'localhost',
+        'USER': 'root',
+        'PASSWORD':'123456',
+        'PORT': '3306'
     }
 }
 
@@ -144,6 +148,10 @@ CORS_ALLOW_HEADERS = (
     'x-requested-with'
 )
 APPEND_SLASH = False
+
+
+
+
 # 配置django 自带的邮件发送
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # 邮件服务器地址
@@ -158,3 +166,10 @@ EMAIL_HOST_TLS = False
 EMAIL_HOST_PASSWORD = 'oqpwdtxlwtuicajb'
 #　收件人的显示信息
 EMAIL_FROM = 'VIPAIDFIGHTING<249155836@qq.com>'
+
+
+
+# 微博登录相关信息：
+APP_KEY = '2125575705'
+APP_SECRET = '8c5c544a29540f648fc9a933145b5751'
+REDIRECT_URI = 'http://127.0.0.1/callback.html'
