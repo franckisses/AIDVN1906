@@ -7,6 +7,8 @@ import base64
 import random 
 from django.conf import settings
 # Create your views here.
+
+
 class EmailView(View):
     """邮箱验证的接口"""
     def post(self,request):
@@ -33,6 +35,7 @@ class EmailView(View):
             return JsonResponse({'code':200,'data':'快去看邮件吧！'})
         elif int(send_type) == 2:
             # 发送邮箱验证码：
+            # TODO code 一般存在redis 数据库中设置一个时间。
             code = '%d'%random.randint(100000,999999)   
             subject = 'AID1906邮箱验证码'
 

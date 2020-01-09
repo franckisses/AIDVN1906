@@ -217,7 +217,7 @@ def  make_topic_res(author,author_topic,is_self):
     res['data']['next_id'] = next_id
     res['data']['next_title'] = next_title
     ### 留言相关的写为空
-    res['data']['message'] = msg_list
+    res['data']['messages'] = msg_list
     res['data']['messages_count'] = msg_count
     print(res)
     return res  
