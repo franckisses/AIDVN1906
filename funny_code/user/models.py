@@ -4,7 +4,7 @@ from django.db import models
 
 class UserProfile(models.Model):
     username = models.CharField(max_length=11,verbose_name='用户名',unique=True)
-    password = models.CharField(max_length=11,verbose_name='密码')
+    password = models.CharField(max_length=32,verbose_name='密码')
     email = models.CharField(max_length=50,verbose_name='邮箱')
     phone = models.CharField(max_length=11,verbose_name='电话')
     # TODO 写个创建时间和更新时间 

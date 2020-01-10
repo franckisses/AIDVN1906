@@ -103,7 +103,7 @@ class WeiboUserView(View):
         json_obj = request.body
         json_dict = json.loads(json_obj)
         # TODO  判断每一个值 是否为空
-        username = json_dict.get('uname')
+        username = json_dict.get('username')
         phone = json_dict.get('phone')
         email = json_dict.get('email')
         password = json_dict.get('password')
@@ -118,15 +118,17 @@ class WeiboUserView(View):
                 user = UserProfile.objects.create(
                     username=username,
                     phone=phone,
-                    password=password,
+                    password=password_m,
                     email=email
                 )
                 weibo_user  = WeiboUser.objects.get(wuid=uid)
                 weibo_user.uid = user
                 weibo_user.save()
         except Exception as e:
+            print(e)
             return JsonResponse({'code':205,'error':'create user failed'})
         # TODO  生成token返回
-        return JsonResponse({'code':200})
+        return JsonResponse({'code':200}) 
+        
 
 
