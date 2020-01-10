@@ -2,7 +2,7 @@
 from django.conf import settings 
 from urllib.parse import urlencode
 import requests # pip3 install requests
-
+import json
 class OauthWeibo:
 
     def __init__(self):
@@ -46,4 +46,7 @@ class OauthWeibo:
             response = requests.post(base_url,data=data)
         except Exception as e:
             raise ValueError('请求异常')
+        if response.status_code == 200:
+            return json.loads(response.text) 
+        raise ValueError('响应异常')
         

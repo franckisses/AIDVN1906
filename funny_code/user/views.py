@@ -7,6 +7,7 @@ import base64
 import random 
 from django.conf import settings
 from .weiboapi import OauthWeibo
+from .models import  WeiboUser,UserProfile
 # Create your views here.
 
 
@@ -52,12 +53,6 @@ class EmailView(View):
         else:
             return JsonResponse({'code':100,'error':'code 有误！'})
 
-"""
-# https://api.weibo.com/oauth2/authorize?
-client_id=YOUR_CLIENT_ID&
-response_type=code&
-redirect_uri=YOUR_REGISTERED_REDIRECT_URI
-"""
 
 class WeiboUrlView(View):
     def get(self,requset):
@@ -78,3 +73,20 @@ class WeiboUserView(View):
             weibodata = oauth.get_access_token(code)
         except Exception as e:
             return JsonResponse({'code':204,'error':'cant get access token'})
+        print(weibodata)
+        access_token = weibodata.get('access_token')
+        uid = weibodata.get('uid')
+
+        try:    
+            weibo_user = WeiboUser.objects.get(wuid=uid)
+            # 1. 通过uid去查询是否绑定微博如果没有异常则已经绑定了
+            #        发生异常没查到 那么没绑定给前端返回状态码 让用户绑定
+        except Exception as e:
+            WeiboUser.objects.create(wuid=uid,access_token=access_token)  
+            return JsonResponse({'code':201,'uid':uid})
+        else:
+            # TODO 已经绑定了微博 返回token
+
+    def post(self,request):
+        # 拿出表单的数据做绑定
+        pass 
