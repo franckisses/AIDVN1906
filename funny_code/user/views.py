@@ -8,6 +8,10 @@ import random
 from django.conf import settings
 from .weiboapi import OauthWeibo
 from .models import  WeiboUser,UserProfile
+import jwt
+import hashlib
+from django.db import transaction
+
 # Create your views here.
 
 
@@ -86,7 +90,43 @@ class WeiboUserView(View):
             return JsonResponse({'code':201,'uid':uid})
         else:
             # TODO 已经绑定了微博 返回token
+            # 如果已经用微博登录了，但是没有绑定个人信息
+            if weibo_user.uid:
+                # 返回token
+                pass
+            else:
+                return JsonResponse({'code':201,'uid':uid})
+
 
     def post(self,request):
         # 拿出表单的数据做绑定
-        pass 
+        json_obj = request.body
+        json_dict = json.loads(json_obj)
+        # TODO  判断每一个值 是否为空
+        username = json_dict.get('uname')
+        phone = json_dict.get('phone')
+        email = json_dict.get('email')
+        password = json_dict.get('password')
+        uid = json_dict.get('uid')
+        m = hashlib.md5()
+        m.update(password.encode())
+        password_m = m.hexdigest()
+        # 存储用户信息以及微博信息
+        try:
+            with transaction.atomic():
+                # 存储个人信息表：
+                user = UserProfile.objects.create(
+                    username=username,
+                    phone=phone,
+                    password=password,
+                    email=email
+                )
+                weibo_user  = WeiboUser.objects.get(wuid=uid)
+                weibo_user.uid = user
+                weibo_user.save()
+        except Exception as e:
+            return JsonResponse({'code':205,'error':'create user failed'})
+        # TODO  生成token返回
+        return JsonResponse({'code':200})
+
+
