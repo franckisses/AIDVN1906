@@ -22,7 +22,9 @@ class OauthWeibo:
         params = {
             'response_type':'code',
             'client_id':self.client_id,
-            'redirect_uri':self.redirect_uri
+            'redirect_uri':self.redirect_uri,
+            # scope
+            'state':'hello.html'
         }   
         query_string = urlencode(params)
         # ?name=1&age=2

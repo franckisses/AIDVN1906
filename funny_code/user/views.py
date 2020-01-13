@@ -93,7 +93,8 @@ class WeiboUserView(View):
             # 如果已经用微博登录了，但是没有绑定个人信息
             if weibo_user.uid:
                 # 返回token
-                pass
+                # TODO 生成token 返回
+                return JsonResponse({"code":200})
             else:
                 return JsonResponse({'code':201,'uid':uid})
 
@@ -125,7 +126,6 @@ class WeiboUserView(View):
                 weibo_user.uid = user
                 weibo_user.save()
         except Exception as e:
-            print(e)
             return JsonResponse({'code':205,'error':'create user failed'})
         # TODO  生成token返回
         return JsonResponse({'code':200}) 
