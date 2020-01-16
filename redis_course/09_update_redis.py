@@ -24,12 +24,10 @@ class Update:
             self.mysql_conn.commit()
             return True
         
-
     def update_redis(self,username,email):
         self.redis_conn.hset(username,'email',email)
         self.redis_conn.expire(username,60*60)
     
-
     def main(self):
         username = input('username:')
         email = input('email:')
