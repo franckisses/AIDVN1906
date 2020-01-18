@@ -12,6 +12,6 @@ def send_verify(email=None,code=None):
         '<p>欢迎来到老龚课堂</p>'\
         '<p>您的邮箱为：%s,您的邮箱验证码为:<b>%s</b>,该验证码10分钟之内有效</p>'%(email,code)
     try:
-        send_mail(subject,'',settings.EMAIL_FROM,　[email], html_message=html_message)
+        send_mail(subject,'',settings.EMAIL_FROM,[email], html_message=html_message)
     except Exception as e:
         raise ValueError('发送邮件失败！')

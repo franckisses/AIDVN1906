@@ -173,3 +173,8 @@ EMAIL_FROM = 'VIPAIDFIGHTING<249155836@qq.com>'
 APP_KEY = '2125575705'
 APP_SECRET = '8c5c544a29540f648fc9a933145b5751'
 REDIRECT_URI = 'http://127.0.0.1/callback.html'
+
+
+#　配置相关的worker 和broker
+BROKER_URL = 'redis://127.0.0.1/14'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1/15'

@@ -2,9 +2,6 @@ import requests
 import random
 import threading
 
-
-
-
 def getPage():
     url = 'http://127.0.0.1:8000/v1/users/test'
     url1 = 'http://127.0.0.1:8001/v1/users/test'

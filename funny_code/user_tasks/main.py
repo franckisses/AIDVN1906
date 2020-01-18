@@ -3,7 +3,7 @@ import os
 from celery import Celery
 
 
-if not os.get('DJANGO_SETTINGS_MODULE'):
+if not os.getenv('DJANGO_SETTINGS_MODULE'):
     os.environ['DJANGO_SETTINGS_MODULE'] = 'funny_code.settings'
 
 # 

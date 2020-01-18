@@ -11,20 +11,26 @@ from .models import  WeiboUser,UserProfile
 import jwt
 import hashlib
 from django.db import transaction
+import redis
+from user_tasks.my_tasks import send_verify
 
 # Create your views here.
 
 
 
 class TestView(View):
-    def get(self,request):
-        print('test')
-        try:
-            user = UserProfile.objects.get(username='shibw')
-        except Exception as e:
-            print(e)
-        user.count += 1
-        user.save()
+    def get(self, request):
+        # print('test')
+        r = redis.Redis()
+        while True:
+            try:
+                with r.lock('shibw', blocking_timeout=3) as lock:
+                    user = UserProfile.objects.get(username='shibw')
+                    user.count += 1
+                    user.save()
+                break
+            except Exception as e:
+                print(e)
         return JsonResponse({'code':200,'data':'i am here!'})
 
 
@@ -57,14 +63,8 @@ class EmailView(View):
             # 发送邮箱验证码：
             # TODO code 一般存在redis 数据库中设置一个时间。
             code = '%d'%random.randint(100000,999999)   
-            subject = 'AID1906邮箱验证码'
-
-            html_message = '<p>尊敬的学员，您好：</p>'\
-                '<p>欢迎来到老龚课堂</p>'\
-                '<p>您的邮箱为：%s,您的邮箱验证码为:<b>%s</b>,该验证码10分钟之内有效</p>'%(email,code)
             try:
-                send_mail(subject,'',settings.EMAIL_FROM,[email],
-                html_message=html_message)
+                send_verify.delay(email=email,code=code)
             except Exception as e:
                 return JsonResponse({'code':103,'error':'send mail failed!'})
             return JsonResponse({'code':200,'data':'快去看邮件吧'})
