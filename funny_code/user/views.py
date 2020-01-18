@@ -62,7 +62,9 @@ class EmailView(View):
         elif int(send_type) == 2:
             # 发送邮箱验证码：
             # TODO code 一般存在redis 数据库中设置一个时间。
-            code = '%d'%random.randint(100000,999999)   
+            code = '%d'%random.randint(100000,999999)  
+
+            # TODO 将生成的数据放入到redis中 
             try:
                 send_verify.delay(email=email,code=code)
             except Exception as e:
