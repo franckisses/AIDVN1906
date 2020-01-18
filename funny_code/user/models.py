@@ -7,6 +7,7 @@ class UserProfile(models.Model):
     password = models.CharField(max_length=32,verbose_name='密码')
     email = models.CharField(max_length=50,verbose_name='邮箱')
     phone = models.CharField(max_length=11,verbose_name='电话')
+    count = models.IntegerField(verbose_name='统计值',default=0,null=True)
     # TODO 写个创建时间和更新时间 
 
     class Meta:
