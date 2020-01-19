@@ -18,20 +18,20 @@ from django_redis import get_redis_connection
 
 
 
-class TestView(View):
-    def get(self, request):
-        print('test')
-        r = redis.Redis()
-        while True:
-            try:
-                with r.lock('shibw', blocking_timeout=3) as lock:
-                    user = UserProfile.objects.get(username='shibw')
-                    user.count += 1
-                    user.save()
-                break
-            except Exception as e:
-                print(e)
-        return JsonResponse({'code':200,'data':'i am here!'})
+# class TestView(View):
+#     def get(self, request):
+#         print('test')
+#         r = redis.Redis()
+#         while True:
+#             try:
+#                 with r.lock('shibw', blocking_timeout=3) as lock:
+#                     user = UserProfile.objects.get(username='shibw')
+#                     user.count += 1
+#                     user.save()
+#                 break
+#             except Exception as e:
+#                 print(e)
+#         return JsonResponse({'code':200,'data':'i am here!'})
 
 
 
@@ -67,7 +67,6 @@ class EmailView(View):
             # 讲验证码存到redis中
             
             redis_conn.setex('user_%s'%email,60,code)
-
             # TODO 将生成的数据放入到redis中 
             try:
                 send_verify.delay(email=email,code=code)
@@ -151,4 +150,11 @@ class WeiboUserView(View):
         return JsonResponse({'code':200}) 
         
 
+class RedisView(View):
+    def get(self,request):
+        key = 'user_842549758@qq.com'
+        redis_conn = get_redis_connection('default')
+        result = redis_conn.get(key)
+        print(result)
+        return JsonResponse({'code':200,'result':result.decode()})
 
