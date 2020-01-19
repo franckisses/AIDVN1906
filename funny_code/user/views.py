@@ -63,6 +63,10 @@ class EmailView(View):
             # 发送邮箱验证码：
             # TODO code 一般存在redis 数据库中设置一个时间。
             code = '%d'%random.randint(100000,999999)  
+            redis_conn = get_redis_connection('default')
+            # 讲验证码存到redis中
+            
+            redis_conn.setex('user_%s'%email,60,code)
 
             # TODO 将生成的数据放入到redis中 
             try:

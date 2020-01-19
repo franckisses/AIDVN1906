@@ -19,6 +19,5 @@ dic = {
 print(redis_conn.hgetall('user:8'))
 
 # 拿出所有的值
-print(redis_conn.hvals('user:8'))\
-    
-# 9:05
+print(redis_conn.hvals('user:8'))
+
