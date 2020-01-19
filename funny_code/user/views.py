@@ -13,14 +13,14 @@ import hashlib
 from django.db import transaction
 import redis
 from user_tasks.my_tasks import send_verify
-
+from django_redis import get_redis_connection
 # Create your views here.
 
 
 
 class TestView(View):
     def get(self, request):
-        # print('test')
+        print('test')
         r = redis.Redis()
         while True:
             try:

@@ -178,3 +178,18 @@ REDIRECT_URI = 'http://127.0.0.1/callback.html'
 #　配置相关的worker 和broker
 BROKER_URL = 'redis://127.0.0.1/14'
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1/15'
+
+
+# 配置缓存
+CACHES = {
+    "default":{
+        # reids 数据库的存储引擎
+        "BACKEND":"django_redis.cache.RedisCache",
+        # 指定redis数据库
+        "LOCATION":"redis://127.0.0.1:6379/0",
+        "OPTIONS": {
+            "CLIENT_CLASS":"django_redis.client.DefaultClient",
+            # 配置链接的密码。链接最大数量
+        }
+    }
+}
