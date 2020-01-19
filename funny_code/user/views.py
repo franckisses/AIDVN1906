@@ -158,3 +158,18 @@ class RedisView(View):
         print(result)
         return JsonResponse({'code':200,'result':result.decode()})
 
+
+class ActiveView(View):
+    def get(self,request):
+        code = request.GET.get('code')
+        if not code:
+            import base64
+            username = 'xiaowang'
+            email = '123321@qq.com'
+            origin_str = username  + '.' + email 
+            active_code = base64.urlsafe_b64encode(origin_str.encode()).decode()
+            url = 'http://127.0.0.1:8000/v1/users/active?code=%s'%active_code
+            print('这是链接',url)
+            return JsonResponse({'code':200,'url':url})
+        else:
+            return JsonResponse({'code':200,'data':'激活成功'})
