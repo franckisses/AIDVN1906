@@ -31,6 +31,7 @@ class OrderProcessingnView(View):
             # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
             # 使用文件读取的方式,载入支付宝公钥
             alipay_public_key_path= settings.ALIPAY_KEY_DIRS + 'alipay_publick_key.pem',
+            # alipay_public_key_string=
             sign_type="RSA2",  # RSA 或者 RSA2
             debug=True  # 默认False
         )
@@ -47,7 +48,7 @@ class OrderProcessingnView(View):
         pay_url = "https://openapi.alipaydev.com/gateway.do?" + order_string
         return http.JsonResponse({"status":1,"pay_url":pay_url})
 
-# 处理支付宝回调及重定向业务
+#  处理支付宝回调及重定向业务
 class PaymentResultView(View):
     # 获取参数字典和验签结果
     def get_sdict_ali_verify(self, request_data):
@@ -81,11 +82,12 @@ class PaymentResultView(View):
         # 2.根据验证结果进行业务处理
         if ali_verify is True:
             order_id = success_dict.get('out_trade_no', None)
-            if ORDER_STATUS == 2:
+            if  ORDER_STATUS == 2:
                 return HttpResponse("订单支付成功")
             # 主动查询
             else:
                 result = alipay.api_alipay_trade_query(out_trade_no=order_id) #  主动查询接口
+                
                 if result.get("trade_status", "") == "TRADE_SUCCESS":
                     print('更改订单状态')
                     #ORDER_STATUS = 2
@@ -110,6 +112,7 @@ class PaymentResultView(View):
         # 2.根据验证结果进行业务处理
         if ali_verify is True:
             trade_status = success_dict.get('trade_status', None)
+            print('__\n',trade_status)
             if trade_status == "TRADE_SUCCESS":
                 print('更改订单状态')
                 #ORDER_STATUS = 2

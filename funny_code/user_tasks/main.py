@@ -11,7 +11,7 @@ celery_app = Celery('funny_code')
 # 导入celery 配置
 celery_app.config_from_object('funny_code.settings')
 # 自动的注册任务：
-celery_app.autodiscover_tasks(['user_tasks.my_task'])
+celery_app.autodiscover_tasks(['user_tasks.my_task','user_taks.'])
 
 # 启动celery
 # celery -A user_taks.main worker -l info

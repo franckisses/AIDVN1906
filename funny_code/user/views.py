@@ -18,20 +18,20 @@ from django_redis import get_redis_connection
 
 
 
-# class TestView(View):
-#     def get(self, request):
-#         print('test')
-#         r = redis.Redis()
-#         while True:
-#             try:
-#                 with r.lock('shibw', blocking_timeout=3) as lock:
-#                     user = UserProfile.objects.get(username='shibw')
-#                     user.count += 1
-#                     user.save()
-#                 break
-#             except Exception as e:
-#                 print(e)
-#         return JsonResponse({'code':200,'data':'i am here!'})
+class TestView(View):
+    def get(self, request):
+        print('test')
+        r = redis.Redis()
+        while True:
+            try:
+                with r.lock('shibw', blocking_timeout=3) as lock:
+                    user = UserProfile.objects.get(username='shibw')
+                    user.count += 1
+                    user.save()
+                break
+            except Exception as e:
+                print(e)
+        return JsonResponse({'code':200,'data':'i am here!'})
 
 
 

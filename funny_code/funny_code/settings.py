@@ -179,7 +179,7 @@ REDIRECT_URI = 'http://127.0.0.1/callback.html'
 BROKER_URL = 'redis://127.0.0.1/14'
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1/15'
 
-
+# sudo pip3 install django-redis
 # 配置缓存
 CACHES = {
     "default":{
@@ -191,5 +191,17 @@ CACHES = {
             "CLIENT_CLASS":"django_redis.client.DefaultClient",
             # 配置链接的密码。链接最大数量
         }
+    },
+    "verify_url":{
+        # reids 数据库的存储引擎
+        "BACKEND":"django_redis.cache.RedisCache",
+        # 指定redis数据库
+        "LOCATION":"redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS":"django_redis.client.DefaultClient",
+            # 配置链接的密码。链接最大数量
+        }
     }
 }
+# 0存储的是业务中的验证码
+# 1 存储的是邮箱激活链接
