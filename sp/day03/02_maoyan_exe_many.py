@@ -35,27 +35,26 @@ class MaoyanSpider:
         self.write_html(re_list)
 
     def write_html(self,all_list):
-        # TODO 实现单条存储到mysql
-        # all_list = [('图片链接','电影名','主演','上映时间','评分')，
-        #  ('图片链接','电影名','主演','上映时间','评分')]        
+        # TODO 实现一次性插入多条mysql记录
+        # executemany(sql,[(),(),()])
+        pure_data = []      
         for i in all_list:
-            img = i[0].split('@')[0] # 获取电影图片
-            title = i[1]# 电影名
-            actor = i[2].strip()[3:]# 主演
-            publish = i[3][5:15]# 上映时间
-            score = i[4] + i[5]  # 评分
+            each_movie = (i[0].split('@')[0],i[1],i[2].strip()[3:],
+            i[3][5:15],i[4] + i[5])
+            pure_data.append(each_movie)
             # 首先写出sql语句
-            sql = 'insert into maoyan_board values(%s,%s,%s,%s,%s)'
-            try:
-                self.cursor.execute(sql,[img,title,actor,publish,score])
-            except Exception as e:
-                print('[插入失败]:',e)
-            self.db.commit()
+        sql = 'insert into maoyan_board values(%s,%s,%s,%s,%s)'
+        try:
+            self.cursor.executemany(sql,pure_data) # [(),(),()]
+        except Exception as e:
+            print('[插入失败]:',e)
+        self.db.commit()
 
     def main(self):
-        for i in range(0,10,10):
+        for i in range(0,100,10):
             url = self.url.format(i)
             self.get_html(url)
+            time.sleep(1)
 
 if __name__ == '__main__':
     maoyan = MaoyanSpider()
@@ -75,4 +74,7 @@ if __name__ == '__main__':
 # Query OK, 0 rows affected (0.02 sec)
 
 # desc maoyan_board;
+# truncate table 表名
+# 将表中的数据清除
+
 
