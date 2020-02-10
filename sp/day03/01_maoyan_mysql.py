@@ -8,8 +8,10 @@ import pymysql
 class MaoyanSpider:
     def __init__(self):
         self.url = "https://maoyan.com/board/4?offset={}"
-        pymysql.connect('127.0.0.1','root','123456','database',
-        '3306',chrset='utf8')
+        self.db = pymysql.connect('127.0.0.1','root','123456','maoyan',
+        3306,charset='utf8')
+        # 创建游标对象
+        self.cursor = self.db.cursor()
         # database:  maoyan
         # table: maoyan_board
 
@@ -33,25 +35,27 @@ class MaoyanSpider:
         self.write_html(re_list)
 
     def write_html(self,all_list):
-        data = []
+        # TODO 实现单条存储到mysql
+        # all_list = [('图片链接','电影名','主演','上映时间','评分')，
+        #  ('图片链接','电影名','主演','上映时间','评分')]        
         for i in all_list:
-            movie = {}
-            movie['img'] = i[0].split("@")[0]
-            movie['title'] = i[1]
-            movie['actor'] = i[2].strip()[3:]
-            movie['public'] = i[3].strip()[5:15]
-            movie['score'] = i[4] + i[5]
-            # print(movie)
-            data.append(movie)
-        # print(data)
-    #　TODO 类　封装成一个工具　mysql
-    # pymysyql
-    # a = MysqlHelper(host,db,port,password)
-    # listhelper
-    # a.insert('insert ******',[name,age,score])
-    # a.select()
-
-
+            # 获取电影图片
+            img = i[0].split('@')[0]
+            # 电影名
+            title = i[1]
+            # 主演
+            actor = i[2].strip()[3:]
+            # 上映时间
+            publish = i[3][5:15]
+            # 评分
+            score = i[4] + i[5]
+            # 首先写出sql语句
+            sql = 'insert into maoyan_board values(%s,%s,%s,%s,%s)'
+            try:
+                self.cursor.execute(sql,[img,title,actor,publish,score])
+            except Exception as e:
+                print('[插入失败]:',e)
+            self.db.commit()
 
     def main(self):
         for i in range(0,10,10):
