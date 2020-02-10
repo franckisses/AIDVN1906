@@ -23,7 +23,7 @@ class DatabaseHelper:
         self.conn = None
         self.cur = None
     
-    def connectatabase(self):
+    def connectdatabase(self):
         """
             用来定义链接数据库：return : True/False
         """
@@ -40,6 +40,8 @@ class DatabaseHelper:
             print('[链接数据库失败]:',e)
             return False
         self.cur = self.conn.cursor()
+        print(self.conn)
+        print(self.cur)
         return True
     
     def close(self):
@@ -51,9 +53,27 @@ class DatabaseHelper:
         if self.conn:
             self.conn.close()
         return True
+    
+    def execute(self,sql,params=None):
+        if self.connectdatabase() == False:
+            return False
+        try:            
+            if self.conn and self.cur:
+                self.cur.execute(sql,params)
+                self.conn.commit()
+        except Exception as e:
+            print('[插入失败]:',e)
+            return False
+        return True
+    
+    # TODO 自己实现executemany(sql,param_list)
 
 if __name__ == "__main__":
     db = DatabaseHelper(database='maoyan')
-    print(db.connectatabase())
-
+    sql = 'insert into maoyan_board values(%s,%s,%s,%s,%s)'
+    movies_detail = ['http://www.baidu.com','寄生虫','韩国人','2019-10-11','9.3']
+    if db.execute(sql,params=movies_detail):
+        print('数据插入成功')
+    print(db.close())
+    
         
