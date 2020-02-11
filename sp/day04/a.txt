@@ -1,0 +1,34 @@
+
+document.getElementsByClassName('cards-li list-photo-li').length
+
+# 每一页是56个
+
+# 第一页 
+https://www.che168.com/beijing/a0_0msdgscncgpi1lto8csp1exx0/
+# 第二页：
+https://www.che168.com/beijing/a0_0msdgscncgpi1lto8csp2exx0/?pvareaid=102179#currengpostion
+# 第三页：
+https://www.che168.com/beijing/a0_0msdgscncgpi1lto8csp3exx0/?pvareaid=102179#currengpostion
+
+
+url的格式：
+
+http://www.baidu.com
+https://www.weibo.com
+http://192.168.1.10:8888
+https://138.123.123.123/topics/index.html
+http://baidu.com/?wd=python
+https://www.che168.com/beijing/0/?pvareaid=102179#currengpostion
+ftp://code.tarena.com.cn
+
+# scheme://host:port/path?query_string=xxx#anchor
+        user:password
+
+协议：scheme                http https ftp mailto 
+主机地址/域名:host           ip地址 / 域名
+端口: port                  80 3306 27017 
+资源路径: path               host/path1/path1/....
+查询字符串：query_string      ?wd=xxx
+锚点：anchor 打开网页主要做定位显示用 
+    id='anchor'
+   a name = 'anchor'
