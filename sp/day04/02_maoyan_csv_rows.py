@@ -31,26 +31,29 @@ class MaoyanSpider:
         self.write_html(re_list)
 
     def write_html(self,all_list):
-        # TODO 实现单行的写入 writerow([])
-        # executemany(sql,[(),(),()])
+        # TODO 实现单行的写入 writerows([(),(),(),()])
         # 图片 电影名  主演 上映时间 评分
         #('https://p0.meituan.net/movie/ce4da3e03e655b5b88ed31b5cd7896cf62472.jpg@160w_220h_1e_1c', 
         # '霸王别姬', '\n                主演：张国荣,张丰毅,巩俐\n        ', 
         # '上映时间：1993-07-26', '9.', '5')
-        pure_data = []      
+        # 这是每一页中电影的数据格式
+        page_data = []      
         for i in all_list:
-            each_movie = [i[0].split('@')[0], i[1], i[2].strip()[3:],
-            i[3][5:15], i[4] + i[5]]
-            with open('maoyan_board.csv','a') as f: # w 
-                writer = csv.writer(f)
-                writer.writerow(each_movie)
+            # 这是每一个电影的构造数据格式
+            each_movie = (i[0].split('@')[0], i[1], i[2].strip()[3:],
+            i[3][5:15], i[4] + i[5])
+            page_data.append(each_movie)
+            
+        with open('maoyan_board1.csv','a') as f: # w 
+            writer = csv.writer(f)
+            writer.writerows(page_data)
 
 
     def main(self):
-        for i in range(0,10,10):
+        for i in range(0,100,10):
             url = self.url.format(i)
             self.get_html(url)
-            time.sleep(1)
+            time.sleep(1.5)
 
 if __name__ == '__main__':
     maoyan = MaoyanSpider()
