@@ -51,3 +51,5 @@ if __name__ == '__main__':
 
 
 
+#http://tieba.baidu.com/f?ie=utf-8&kw=%E8%82%BA%E7%82%8E&red_tag=n3531408564&pn=0
+http://tieba.baidu.com/f?kw=%E5%8C%97%E4%BA%AC&ie=utf-8&cid=&tab=corearea&pn=50

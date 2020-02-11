@@ -10,8 +10,8 @@ class MaoyanSpider:
         headers = {
             'User-Agent': UserAgent().firefox
         }
-        res_obj =request.Request(current_url,headers=headers)
-        response =request.urlopen(res_obj)
+        res_obj = request.Request(current_url,headers=headers)
+        response = request.urlopen(res_obj)
         html = response.read().decode()
         self.parse_html(html)
 
@@ -22,6 +22,7 @@ class MaoyanSpider:
                          '*?class="star">(.*?)</p>.*?releasetime">(.*?)</p>.*?class="integer">'
                              '(.*?)</i>.*?fraction">(.*?)</i>',re.S)
         re_list = pattern.findall(html)
+        print('下面是正则表达式匹配出的内容：\n',re_list)
         self.write_html(re_list)
 
     def write_html(self,all_list):
@@ -33,14 +34,15 @@ class MaoyanSpider:
             movie['actor'] = i[2].strip()[3:]
             movie['public'] = i[3].strip()[5:15]
             movie['score'] = i[4] + i[5]
-            print(movie)
+            # print(movie)
             data.append(movie)
+        # print(data)
     #　TODO 类　封装成一个工具　mysql
     # pymysyql
-    a = MysqlHelper(host,db,port,password)
+    # a = MysqlHelper(host,db,port,password)
     # listhelper
-    a.insert('insert ******',[name,age,score])
-    a.select()
+    # a.insert('insert ******',[name,age,score])
+    # a.select()
 
 
 
@@ -52,3 +54,4 @@ class MaoyanSpider:
 if __name__ == '__main__':
     maoyan = MaoyanSpider()
     maoyan.main()
+

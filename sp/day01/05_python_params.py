@@ -40,8 +40,6 @@ def get_page(current_url):
     response = request.urlopen(res_obj)
     return response
 
-
-
 def parse_page(response):
     """
     网页解析

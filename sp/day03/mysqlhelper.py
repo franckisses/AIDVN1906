@@ -67,6 +67,8 @@ class DatabaseHelper:
         return True
     
     # TODO 自己实现executemany(sql,param_list)
+    # 判断每一个元素是否为元祖。
+    # 再去调用executemany这个方法
 
 if __name__ == "__main__":
     db = DatabaseHelper(database='maoyan')
