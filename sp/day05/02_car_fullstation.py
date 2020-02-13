@@ -8,6 +8,7 @@ datetime : 2020-02-13 21:11
 from urllib import request
 import re
 import time
+import random
 from hashlib import md5
 
 from fake_useragent import UserAgent
@@ -15,7 +16,7 @@ from mysqlhelper import DatabaseHelper
 
 class CarSpider:
     def __init__(self):
-        self.Baseurl = 'https://www.che168.com/'
+        self.Baseurl = 'https://www.che168.com'
         self.headers = {
             'User-Agent': UserAgent().ie
         }
@@ -27,12 +28,18 @@ class CarSpider:
         用来获取列表页的数据
         """
         list_html = self.get_html(url)
-        # 拿到网页内容之后：做解析。
+        # 拿到网页内容之后：做解析 
         html_list_reg ='<li class="cards-li list-photo-li".*?<a href="(.*?)".*?</li>'
         href_list = self.regex_method(html_list_reg,list_html)
+        
+        print('这个是列表页的地址:',href_list)
         for each_page in href_list:
-            second_url = 'https://www.che168.com' + each_page
+            print(each_page)
+            if 'https' not in each_page:
+                second_url = self.Baseurl + each_page
             # 1.通过对URL进行md5加密,指纹
+            else:
+                second_url = each_page
             s = md5()
             s.update(second_url.encode())
             finder_type = s.hexdigest()
@@ -47,12 +54,12 @@ class CarSpider:
                     # 获取详情页面数据失败的处理方式
                     print('[error]:','获取该页数据失败',second_url)
             else:
-                continue   
-            # 2.判断该指纹是否在mysql中，如果是那么跳过
-            # 2.2 如果不存在，那么没爬过。获取数据，如果获取完之后，将该条指纹存入到mysql中。  
-            # 3 将获取到的详情页数据全部存入到mysql中。  
-            # 4 将全国所有的城市通过正则匹配出来
-            # 如何判断数据已经爬取并且成功。将链接存入到mysql中。
+                continue
+            2.判断该指纹是否在mysql中，如果是那么跳过
+            2.2 如果不存在，那么没爬过。获取数据，如果获取完之后，将该条指纹存入到mysql中。  
+            3 将获取到的详情页数据全部存入到mysql中。  
+            4 将全国所有的城市通过正则匹配出来
+            如何判断数据已经爬取并且成功。将链接存入到mysql中。
         
 
     # 用来发送请求
@@ -63,7 +70,9 @@ class CarSpider:
         req = request.Request(url=current_url,headers=self.headers)
         try:
             res = request.urlopen(req)
+            print(res.getcode())
             html = res.read().decode('gb2312','ignore')
+            
             return html
         except Exception as e:
             print('[Error]:',e)
@@ -98,12 +107,22 @@ class CarSpider:
         # 1.获取网站主页代码
         text = self.get_html(self.Baseurl)
         # 2.通过正则匹配出网站全国所有城市
-        regex_pattern  = r'<a pidname=.*?href="(.*?)">(.*?)</a>'
+        regex_pattern  = r'<a pidName=.*?href="(.*?)">(.*?)</a>'
         all_city_list = self.regex_method(regex_pattern,text)
-        print(all_city_list)
-        # 3.再依次抓取抓取全国城市中的二手车信息
-
-
+        # all_city_list 格式[('url','city_name'........)]
+        # TODO 将所有的城市数据存入到mysql中。
+        # 多存几张表 城市表  二手车数据表 将该车型的图片也可以做一个一对多的映射表
+        #          # 3.再依次抓取抓取全国城市中的二手车信息
+        for i in  all_city_list:
+            # i 为元祖。 第一个值是城市的二手车列表页的网址
+            #           第二个值是城市二手车城市名
+            print('正在抓取的城市名:',i[1])
+            if 'list' in i[0]: 
+                self.parse_html(self.Baseurl+i[0])
+                time.sleep(random.randint(1,3))
+            else:
+                print(i[0],'抓取链接无效')
+                continue
     # 程序入口主函数
     def run(self):
         self.get_city()
