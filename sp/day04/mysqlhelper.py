@@ -40,8 +40,6 @@ class DatabaseHelper:
             print('[链接数据库失败]:',e)
             return False
         self.cur = self.conn.cursor()
-        print(self.conn)
-        print(self.cur)
         return True
     
     def close(self):
@@ -69,13 +67,27 @@ class DatabaseHelper:
     # TODO 自己实现executemany(sql,param_list)
     # 判断每一个元素是否为元祖。
     # 再去调用executemany这个方法
+    def select(self,sql,params):
+        """这是一个查询参数的sql查询语句"""
+        if self.connectdatabase() == False:
+            return False
+        try:            
+            if self.conn and self.cur:
+                result = self.cur.execute(sql,params)
+        except Exception as e:
+            print('[插入失败]:',e)
+            return False
+        return result
 
+        
 if __name__ == "__main__":
     db = DatabaseHelper(database='maoyan')
-    sql = 'insert into maoyan_board values(%s,%s,%s,%s,%s)'
-    movies_detail = ['http://www.baidu.com','寄生虫','韩国人','2019-10-11','9.3']
-    if db.execute(sql,params=movies_detail):
-        print('数据插入成功')
-    print(db.close())
+    # sql = 'insert into maoyan_board values(%s,%s,%s,%s,%s)'
+    # movies_detail = ['http://www.baidu.com','寄生虫','韩国人','2019-10-11','9.3']
+    # if db.execute(sql,params=movies_detail):
+    #     print('数据插入成功')
+    # print(db.close())
+    sql = 'select * from maoyan_board where title=%s'
+    print('查询的结果是：', db.select(sql,['小丑']))
     
         
