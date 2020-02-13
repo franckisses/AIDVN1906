@@ -1,0 +1,28 @@
+
+
+
+# 今天课程内容：  7:30 准时开始：
+    1.二手车之家数据爬取
+    2.pyquery模块
+    3.requests模块
+# 西安
+# https://www.che168.com/xian/a0_0msdgscncgpi1lto8cspexx0/
+# 北京
+#https://www.che168.com/beijing/a0_0msdgscncgpi1lto8csp1ex/
+# 广州
+https://www.che168.com/guangzhou/a0_0msdgscncgpi1lto8csp1ex/
+
+
+<dd>
+<a pidname="福建" href="/fuzhou/a0_0msdgscncgpi1lto8csp1ex/#pvareaid=100943">福州</a>
+<a pidname="福建" href="/xiamen/a0_0msdgscncgpi1lto8csp1ex/#pvareaid=100943">厦门</a
+<a pidname="福建" href="/putian/a0_0msdgscncgpi1lto8csp1ex/#pvareaid=100943">莆田</a>
+<a pidname="福建" href="/sanming/a0_0msdgscncgpi1lto8csp1ex/#pvareaid=100943">三明</a>
+<a pidname="福建" href="/quanzhou/a0_0msdgscncgpi1lto8csp1ex/#pvareaid=100943">泉州</a>
+<a pidname="福建" href="/zhangzhou/a0_0msdgscncgpi1lto8csp1ex/#pvareaid=100943">漳州</a>
+<a pidname="福建" href="/nanping/a0_0msdgscncgpi1lto8csp1ex/#pvareaid=100943">南平</a>
+<a pidname="福建" href="/longyan/a0_0msdgscncgpi1lto8csp1ex/#pvareaid=100943">龙岩</a>
+<a pidname="福建" href="/ningde/a0_0msdgscncgpi1lto8csp1ex/#pvareaid=100943">宁德</a>
+</dd>
+r'<a pidname=.*?href="(.*?)">(.*?)</a>'
+
