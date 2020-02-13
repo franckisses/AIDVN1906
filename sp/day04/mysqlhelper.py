@@ -68,16 +68,22 @@ class DatabaseHelper:
     # 判断每一个元素是否为元祖。
     # 再去调用executemany这个方法
     def select(self,sql,params):
-        """这是一个查询参数的sql查询语句"""
+        """
+        这是一个sql查询语句的接口：
+        返回结果：如果存在，则返回结果集，
+                如果不存在，则返回 None。
+        """
         if self.connectdatabase() == False:
             return False
         try:            
             if self.conn and self.cur:
-                result = self.cur.execute(sql,params)
+                self.cur.execute(sql,params)
         except Exception as e:
             print('[插入失败]:',e)
-            return False
-        return result
+        if self.cur.fetchone():
+            return self.cur.fetchone()
+        else:
+            return None
 
         
 if __name__ == "__main__":
@@ -88,6 +94,6 @@ if __name__ == "__main__":
     #     print('数据插入成功')
     # print(db.close())
     sql = 'select * from maoyan_board where title=%s'
-    print('查询的结果是：', db.select(sql,['小丑']))
+    print('查询的结果是：', db.select(sql,['喜剧之王']))
     
         

@@ -32,29 +32,29 @@ class CarSpider:
         # 拿到网页内容之后：做解析。
         html_list_reg ='<li class="cards-li list-photo-li".*?<a href="(.*?)".*?</li>'
         href_list = self.regex_method(html_list_reg,list_html)
-        
-        print('--------------')
         for each_page in href_list:
             second_url = 'https://www.che168.com' + each_page
-            # TODO 对于每一条链接进行md5加密
             # 1.通过对URL进行md5加密,指纹
             s = md5()
             s.update(second_url.encode())
             finder_type = s.hexdigest()
-            # 创建一个指纹表 finger_request
-            # 此方法是用来检查指纹是否在数据库中存在 如果不存在返回 True,
-            # 如果存在返回 False
+            # 此方法是用来检查指纹是否在数据库中存在 如果不存在返回 True反之False   # 布隆过滤器 
             if self.check_finger(finder_type):
-                pass
+                print('准备获取详情页数据')
+                # TODO 如果获取详情页面数据失败，怎么处理处理url
+                if self.get_detail(second_url):
+                    sql = 'insert into finger values(%s)'
+                    self.db.execute(sql,[finder_type])
+                else:
+                    # 获取详情页面数据失败的处理方式
+                    print('[error]:','获取该页数据失败',second_url)
+            else:
+                continue   
             # 2.判断该指纹是否在mysql中，如果是那么跳过
             # 2.2 如果不存在，那么没爬过。获取数据，如果获取完之后，将该条指纹存入到mysql中。  
             # 3 将获取到的详情页数据全部存入到mysql中。  
             # 4 将全国所有的城市通过正则匹配出来
             # 如何判断数据已经爬取并且成功。将链接存入到mysql中。
-            # 爬取第二页的数据
-            print('准备获取详情页数据')
-            self.get_detail(second_url)
-            break
         
     
 
@@ -83,9 +83,19 @@ class CarSpider:
         detail_reg = '<div class="car-box">.*?<h3 class="car-brand-name">(.*?)</h3>.*?<ul class="brand-unit-item fn-clear">.*?<li>.*?<h4>(.*?)</h4>.*?<h4>(.*?)</h4>.*?<h4>(.*?)</h4>.*?<h4>(.*?)</h4>.*?<span class="price" id="overlayPrice">￥(.*?)<b'
         car_list =self.regex_method(detail_reg,detail_html)
         print('this is detail car:',car_list)
+        if car_list:
+            return True
+        return False
 
-    def check_finger(finder_type):
-        self.db.
+    def check_finger(self,finder_type):
+        # 首先定义一个查询sql语句
+        sql = 'select request_finger from finger where request_finger=%s'
+        # 如果self.db.selct 返回的非None值，那么证明是有此指纹
+        #                   返回的是None，那么此指纹还没有存入到mysql
+        if self.db.select(sql,[finder_type]):
+            return False
+        return True
+
     # 程序入口主函数
     def run(self):
         for i in range(1,3):
