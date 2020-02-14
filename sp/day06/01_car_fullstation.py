@@ -9,6 +9,7 @@ from urllib import request
 import re
 import time
 import random
+import os
 from hashlib import md5
 
 from fake_useragent import UserAgent
@@ -21,6 +22,8 @@ class CarSpider:
             'User-Agent': UserAgent().ie
         }
         self.db = DatabaseHelper(database='cardb')
+        self.current_city = None
+        self.filename = None
         #mysql> create database cardb default charset utf8;
 
     def parse_html(self,url):
@@ -70,6 +73,7 @@ class CarSpider:
         req = request.Request(url=current_url,headers=self.headers)
         try:
             res = request.urlopen(req)
+            time.sleep(1)
             print(res.getcode())
             html = res.read().decode('gb2312','ignore')
             
@@ -85,14 +89,24 @@ class CarSpider:
     # 获取第二页数据
     def get_detail(self,current_url):
         print('正在开始抓取此链接：',current_url)
+        
         detail_html = self.get_html(current_url)
         detail_reg = '<div class="car-box">.*?<h3 class="car-brand-name">(.*?)</h3>.*?<ul class="brand-unit-item fn-clear">.*?<li>.*?<h4>(.*?)</h4>.*?<h4>(.*?)</h4>.*?<h4>(.*?)</h4>.*?<h4>(.*?)</h4>.*?<span class="price" id="overlayPrice">￥(.*?)<b'
         car_list =self.regex_method(detail_reg,detail_html)
         # TODO 通过正则将每辆车的图片匹配出来。并且下载到本地。
         # 每辆车的文件名为此车的ID
         # [('奔驰E级 2019款 E 300 L 豪华型', '0.5万公里', '2018年11月', '自动 / 2L', '合肥', '44.88')]
-
+        # 接下来去拿 图片 
+        filename = current_url.split('.')[0].split('/')[-1]
+        if filename.isdigit():
+            self.filename = filename
+        else:
+            self.filename = car_list[0][0] +'_'+ car_list[0][4]
+        os.makedirs(self.current_city+'/'+self.filename)
+        img_reg = '<a action="usc_2sc_detail_photo_show".*?><img.*?data-original="(.*?)".*?></a>'
+        img_list = self.regex_method(img_reg,detail_html) # htttp://baidu.com
         print('this is detail car:',car_list) 
+        self.download_img(img_list)
         if car_list:
             return True
         return False
@@ -119,6 +133,8 @@ class CarSpider:
         for i in  all_city_list:
             # i 为元祖。 第一个值是城市的二手车列表页的网址
             #           第二个值是城市二手车城市名
+            os.makedirs(i[1]) 
+            self.current_city = i[1]
             print('正在抓取的城市名:',i[1])
             if 'list' in i[0]: 
                 self.parse_html(self.Baseurl+i[0])
@@ -126,6 +142,20 @@ class CarSpider:
             else:
                 print(i[0],'抓取链接无效')
                 continue
+
+    def download_img(self,img_list):
+        # ['//baidu.com/1.jpg']
+        full_url = ['http:'+ i for i in img_list]
+        for index,img_url in enumerate(full_url):
+            try:
+                request.urlretrieve(img_url,self.current_city+'/'+self.filename+'/'+str(index)+'.jpg')
+            except Exception as e:
+                print('[FAILED]:',img_url,e)
+            else:
+                print('[SUCCESS]:',img_url)
+
+
+
     # 程序入口主函数
     def run(self):
         self.get_city()
@@ -146,3 +176,18 @@ if __name__ == "__main__":
 
 # 如果有id 就用ID作为文件名
 # 没有ID的话 我们就用名称_所在地 作为文件名
+
+
+# 先创建城市文件夹
+# 上海
+#     123321
+#         1.jpg
+#         2.jpg
+#         3.jpg
+#     123322
+#     123323
+# 北京
+
+# 西安
+
+# 成都
