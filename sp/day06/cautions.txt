@@ -7,3 +7,8 @@ before class:
     2.pyquery模块。
     3.图片下载方式。
     4.requests模块。
+
+# pyquery：
+
+安装pyquery 
+# sudo pip3 install pyquery

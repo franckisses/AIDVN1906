@@ -110,7 +110,7 @@ class CarSpider:
         if car_list:
             return True
         return False
-
+# os.path.exists()
     def check_finger(self,finder_type):
         # 首先定义一个查询sql语句
         sql = 'select request_finger from finger where request_finger=%s'
@@ -150,9 +150,9 @@ class CarSpider:
             try:
                 request.urlretrieve(img_url,self.current_city+'/'+self.filename+'/'+str(index)+'.jpg')
             except Exception as e:
-                print('[FAILED]:',img_url,e)
+                print('[FAILED]:',e)
             else:
-                print('[SUCCESS]:',img_url)
+                print('[SUCCESS]:')
 
 
 
@@ -177,7 +177,12 @@ if __name__ == "__main__":
 # 如果有id 就用ID作为文件名
 # 没有ID的话 我们就用名称_所在地 作为文件名
 
+# TODO 自己完成每个城市的列表页所有数据的抓取
+# TODO 耗时的操作全部丢给celery
+# TODO 改写通过pyquery匹配文本之类。
+# TODO 改写成requests 模块请求
 
+# xpath  beautifulsoup
 # 先创建城市文件夹
 # 上海
 #     123321
