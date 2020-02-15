@@ -1,0 +1,20 @@
+
+
+
+review:
+    pyquery
+
+今天课程内容为：
+    1.xpath匹配规则。
+      sudo pip3 install  lxml
+      (base) Franck:day07 gongyan$ pip list | grep 'lxml'
+        lxml                               4.3.2  
+    2.链家二手房抓取。
+    3.表情包批量下载。
+html
+    head
+        div
+    body
+        div
+    foot
+        div
