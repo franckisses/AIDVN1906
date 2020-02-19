@@ -1,11 +1,17 @@
 
 
-
-
-
-
 今天课程内容：
-    1. 完善链家2手房爬虫抓取。
-    2. 斗图网站抓取。
-    3. requests.get参数设置。
-    
+    1. requests.get()参数。 
+        verify  证书认证
+        proxies 代理
+
+    http 
+    https  ssl  
+        apache
+        nginx 
+    2. js动态抓取-有道翻译。
+    3. 代理。
+
+
+作业：
+    通过递归的方式下载笔记。将所有的笔记下载到本地。

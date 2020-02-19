@@ -32,8 +32,6 @@ class FightPic:
             each_page[i.xpath('./@alt')[0]] = i.xpath('./@src')[0]
         self.save_pic(each_page)
 
-
-
     def get_html(self,url):
         """页面下载函数"""
         try:
@@ -57,8 +55,7 @@ class FightPic:
                 request.urlretrieve(value,PIC_PATH+'/'+name+value[-4:])
                 print('download over%s.'%name)
             except Exception as e:
-                print('[Error]:',e)
-
+                print('[Error]:',e,'\n',name,value)
 
     def main(self):
         """爬虫启动方法"""

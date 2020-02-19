@@ -82,6 +82,7 @@ class CarSpider:
         detail_html = self.get_html(current_url)
         detail_reg = '<div class="car-box">.*?<h3 class="car-brand-name">(.*?)</h3>.*?<ul class="brand-unit-item fn-clear">.*?<li>.*?<h4>(.*?)</h4>.*?<h4>(.*?)</h4>.*?<h4>(.*?)</h4>.*?<h4>(.*?)</h4>.*?<span class="price" id="overlayPrice">￥(.*?)<b'
         car_list =self.regex_method(detail_reg,detail_html)
+        # TODO 对数据进行持久化存储，csv mysql 都行。
         print('this is detail car:',car_list)
         if car_list:
             return True
@@ -108,3 +109,4 @@ if __name__ == "__main__":
     spider = CarSpider()
     spider.run()
 
+# 
