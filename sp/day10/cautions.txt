@@ -1,0 +1,60 @@
+
+
+
+### 爬虫
+    1.js加密初试。 
+        fanyi.youdao.com
+    2.空气质量检测平台
+        https://www.aqistudy.cn/
+    3.楚楚街案例
+        http://seller.chuchujie.com/sqe.php?s=/User/index
+
+
+### 动态网站
+ 
+### 静态网站
+1.打开网页源代码，查看网页源代码中是否存在我们需要的数据
+        右键-查看网页源代码
+2.chrome 浏览器。设置-[搜索]权限-JavaScript- 禁止
+        再去请求网站。
+3.打开F12，开发者模式。
+    找到network。刷新网页。查看请求。是否存在xhr类型的请求。
+    如果存在那么就是动态网站。
+
+    username: 18667018590 
+    password: chuchuJIE123.
+    
+### 有道翻译
+接口：
+http://fanyi.youdao.com/translate_o?smartresult=dict&smartresult=rule
+请求方式：
+    post
+表单数据：
+    i: hi
+    from: AUTO
+    to: AUTO
+    smartresult: dict
+    client: fanyideskweb
+
+    salt: 15822039584230  # done ts + random.randint(0,9)
+    sign: e1d39308669bdf1111369ef83b1e32fb
+    ts: 1582203958423 # done
+    bv: e77fdbd7d7eb6dba8e3f74b35481a113 # done 
+
+        'e77fdbd7d7eb6dba8e3f74b35481a113'
+
+
+    doctype: json
+    version: 2.1
+    keyfrom: fanyi.web
+    action: FY_BY_REALTlME
+
+
+"""
+>>> s = hashlib.md5()
+>>> s.update("5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.116 Safari/537.36".encode())
+>>> s.hexdigest()
+'e77fdbd7d7eb6dba8e3f74b35481a113'
+"""
+
+"fanyideskweb" + '你好' + '15822059599032' + "Nw(nmmbP%A-r6U3EUn]Aj"
