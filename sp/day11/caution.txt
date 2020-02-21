@@ -1,0 +1,24 @@
+
+
+# 基础爬虫知识收尾：
+
+民政局网站
+    前端做了一个重定向
+豆瓣电影
+    json
+腾讯招聘
+    json
+
+# 异步
+# selenium
+# phtomjs
+# scrapy
+
+
+
+reload()
+window.href = 'http://' 
+ajax
+get
+
+window.location.href="http://www.mca.gov.cn/article/sj/xzqh/2019/2019/202002191838.html"
