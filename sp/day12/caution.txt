@@ -1,0 +1,31 @@
+
+
+
+
+网站地图：
+    sitemap
+如何查看网站地图：
+    www.douban.com/robots.txt
+
+
+p=1
+&q=ajax4jsf
+&t=
+&viparticle=
+&domain=
+&o=
+&s=
+&u=
+&l=
+&f=
+
+
+https://nba.hupu.com/players/yaoming-1.html
+
+
+如何去找网站地图：
+找域名/robots.txt
+找sitemap:   
+    *.xml  txt
+
+休息一会
