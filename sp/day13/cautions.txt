@@ -1,0 +1,42 @@
+
+
+
+今天课程内容：
+    1.豆瓣电影抓取练习。
+    2.小米应用商店多线程爬取。
+        线程
+        队列
+        ajax
+        csv/json
+    3.hupu/sitemap
+
+# 豆瓣地址分析                                                                  offset 
+https://movie.douban.com/j/chart/top_list?type=11&interval_id=100%3A90&action=&start=0&limit=20
+https://movie.douban.com/j/chart/top_list?type=11&interval_id=100%3A90&action=&start=20&limit=20
+https://movie.douban.com/j/chart/top_list?type=11&interval_id=100%3A90&action=&start=40&limit=20
+
+https://movie.douban.com/j/chart/top_list?type=11&interval_id=100%3A90&action=&start=60&limit=40
+
+cosole.table([{},{},{}])
+返回表格在终端显示
+
+copy([{},{},{}]) ctrl + c 
+格式化之后会将数据，复制到剪切板，可以直粘贴到文件中。
+
+ctrl + v 
+[
+  {
+    "name": "xiaowang",
+    "age": 18
+  },
+  {
+    "name": "xiaowang",
+    "age": 18
+  },
+  {
+    "name": "xiaowang",
+    "age": 18
+  }
+]
+
+# 此链接是用来获取当前类型电影的总数
