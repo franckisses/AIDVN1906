@@ -38,6 +38,7 @@ class XiaomiSpider:
             text =response.text
         html = etree.HTML(text)
         # 找到所有应用的标签
+        print('-----')
         li_list = html.xpath('//ul[@class="category-list"]/li/a')
         # 遍历所有分类应用
         for each_a in li_list:
@@ -80,19 +81,14 @@ class XiaomiSpider:
                         headers = self.headers
                     ).json()
                 except Exception as e:
-                    print('[Error]:',e)
-                all_app_info = []
+                    print('[Error]:',e,'\n',response)
                 for app in response['data']:
-                    all_app_info.append((
-                        app['appId'],app["displayName"],app['level1CategoryName'],app['packageName']
-                    ))
                     # writerows([(),(),()])
-                self.lock.acquire()
-                with open('xiaomiapp.csv','a') as f:
-                    writer = csv.writer(f)
-                    writer.writerows(all_app_info)
-                self.lock.release()
-                time.sleep(2)
+                    self.lock.acquire()
+                    with open("xiaomi1.json","a",encoding="utf-8") as f:
+                        f.write(json.dumps(app,ensure_ascii=False)+"\n")
+                    self.lock.release()
+                    time.sleep(2)
                     # 将小米应用商店的数据存入到json
                 # {"appId":108048,"displayName":"王者荣耀","icon":"http://file.market.xiaomi.com/thumbnail/PNG/l62/AppStore/0eb7aa415046f4cb838cfe5b5d402a5efc34fbb25","level1CategoryName":"网游RPG","packageName":"com.tencent.tmgp.sgame"}
             else:
