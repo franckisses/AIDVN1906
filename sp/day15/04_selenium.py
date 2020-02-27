@@ -16,8 +16,9 @@ print(browser.window_handles)
 browser.switch_to_window(browser.window_handles[1])
 browser.get('https://jianshu.com')
 time.sleep(5)
-# 如果有多个选项卡的时候，
+# 如果有多个选项卡的时候
 # browser.close()                      只会关闭当前的选项卡
 # browser.quit()                       关闭所有的选项卡
 browser.quit()
+browser.close() 
 # print(browser.window_handles)                           # 9:03 
