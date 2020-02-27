@@ -24,9 +24,16 @@ class JdSpider:
         time.sleep(1)
         self.browser.execute_script('window.scrollTo(0,document.body.scrollHeight)')
         time.sleep(5)
-        all_products = self.browser.find_elements_by_xpath('//*[@id="J_goodsList"]/ul/li/div/div[1]/a')
-        print(all_products)
-        print(len(all_products))
+        all_products = self.browser.find_elements_by_xpath('//li[@class="gl-item"]/div/div[1]/a/img')
+        print('找到了%d个'%(len(all_products)))
+        for i in all_products:
+            # WebElement.get_attribute('class') # pn-next / pn-next disable
+            print(i.get_attribute('src'))
+            # time.sleep(10)
+            # print(self.browser.window_handles)
+            break
+        # print(all_products)
+        # print(len(all_products))
 
 
     def parse_two_html(self):
