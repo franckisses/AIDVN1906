@@ -36,7 +36,8 @@ class JdSpider:
         """
             此方法是用来解析二级页面
         """
-        for each_product in products:
+        for index,each_product in enumerate(products):
+            print('current:',index+1)
             each_product.click()
             self.browser.switch_to_window(self.browser.window_handles[1])
             # 手机的标题
@@ -55,12 +56,17 @@ class JdSpider:
             images_element = self.browser.find_elements_by_xpath(
                 '//*[@id="spec-list"]/ul/li/img'
                 ) # WebElement
-            images = [ i.get_attribute('src') for i in images_element]
+            images = [ i.get_attribute('src') for i in images_element ]
             print('title',title)
             print('color',colors)
             print('type',types)
             print('img',images)
-            break
+            print('--------------------')
+            # 关闭第二个选项卡
+            self.browser.close()
+            # 将选项卡切换回第一个
+            self.browser.switch_to_window(self.browser.window_handles[0])
+            time.sleep(1)
 
         time.sleep(10)
 
