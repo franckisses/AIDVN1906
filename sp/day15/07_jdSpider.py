@@ -53,40 +53,38 @@ class JdSpider:
         """
             此方法是用来解析二级页面
         """
-        time.sleep(3)
-        print('当前页面爬取结束')
-        # for index,each_product in enumerate(products):
-        #     print('current:',index+1)
-        #     each_product.click()
-        #     self.browser.switch_to_window(self.browser.window_handles[1])
-            # # 手机的标题
-            # title = self.browser.find_element_by_xpath(
-            #     '/html/body/div[8]/div/div[2]/div[1]'
-            #     ).text.strip()
-            # # 手机的颜色
-            # colors = self.browser.find_element_by_xpath(
-            #     '//*[@id="choose-attr-1"]/div[2]'
-            # ).text
-            # # 手机的规格
-            # types = self.browser.find_element_by_xpath(
-            #     '//*[@id="choose-attr-2"]/div[2]'
-            # ).text
-            # # 图片的链接
-            # images_element = self.browser.find_elements_by_xpath(
-            #     '//*[@id="spec-list"]/ul/li/img'
-            #     ) # WebElement
-            # images = [ i.get_attribute('src') for i in images_element ]
-            # print('title',title)
-            # print('color',colors)
-            # print('type',types)
-            # print('img',images)
-            # print('--------------------')
+        for index,each_product in enumerate(products):
+            print('current:',index+1)
+            each_product.click()
+            self.browser.switch_to_window(self.browser.window_handles[1])
+            # 手机的标题
+            title = self.browser.find_element_by_xpath(
+                '/html/body/div[8]/div/div[2]/div[1]'
+                ).text.strip()
+            # 手机的颜色
+            colors = self.browser.find_element_by_xpath(
+                '//*[@id="choose-attr-1"]/div[2]'
+            ).text
+            # 手机的规格
+            types = self.browser.find_element_by_xpath(
+                '//*[@id="choose-attr-2"]/div[2]'
+            ).text
+            # 图片的链接
+            images_element = self.browser.find_elements_by_xpath(
+                '//*[@id="spec-list"]/ul/li/img'
+                ) # WebElement
+            images = [ i.get_attribute('src') for i in images_element ]
+            print('title',title)
+            print('color',colors)
+            print('type',types)
+            print('img',images)
+            print('--------------------')
             # 关闭第二个选项卡
-            # time.sleep(2)
-            # self.browser.close()
-            # # 将选项卡切换回第一个
-            # self.browser.switch_to_window(self.browser.window_handles[0])
-            # time.sleep(1)
+            time.sleep(2)
+            self.browser.close()
+            # 将选项卡切换回第一个
+            self.browser.switch_to_window(self.browser.window_handles[0])
+            time.sleep(1)
 
         # time.sleep(10)
 
