@@ -27,7 +27,7 @@ class JdSpider:
             # 通过二级页面进行解析所有的商品数据
             self.parse_two_html(all_products)
             # 获取下一页的元素
-            a_tag = self.browser.find_elements_by_xpath(
+            a_tag = self.browser.find_element_by_xpath(
                 '//*[@id="J_bottomPage"]/span[1]/a[9]'
                 )
             # 获取下一页元素的属性
@@ -35,54 +35,60 @@ class JdSpider:
             # 判断元素是否可以点击
             if 'disabled' not in a_status:
                 a_tag.click()
+                time.sleep(2)
+            else:
                 if status == 1:
                     break
-            else:
                 status = 1
 
     def find_elements_in_current_page(self):
-        self.browser.execute_script('window.scrollTo(0,document.body.scrollHeight)')
         time.sleep(5)
+        self.browser.execute_script('window.scrollTo(0,document.body.scrollHeight)')
+        time.sleep(3)
         all_products = self.browser.find_elements_by_xpath('//li[@class="gl-item"]/div/div[1]/a/img')
+        print(len(all_products))
         return all_products
 
     def parse_two_html(self,products):
         """
             此方法是用来解析二级页面
         """
-        for index,each_product in enumerate(products):
-            print('current:',index+1)
-            each_product.click()
-            self.browser.switch_to_window(self.browser.window_handles[1])
-            # 手机的标题
-            title = self.browser.find_element_by_xpath(
-                '/html/body/div[8]/div/div[2]/div[1]'
-                ).text.strip()
-            # 手机的颜色
-            colors = self.browser.find_element_by_xpath(
-                '//*[@id="choose-attr-1"]/div[2]'
-            ).text
-            # 手机的规格
-            types = self.browser.find_element_by_xpath(
-                '//*[@id="choose-attr-2"]/div[2]'
-            ).text
-            # 图片的链接
-            images_element = self.browser.find_elements_by_xpath(
-                '//*[@id="spec-list"]/ul/li/img'
-                ) # WebElement
-            images = [ i.get_attribute('src') for i in images_element ]
-            print('title',title)
-            print('color',colors)
-            print('type',types)
-            print('img',images)
-            print('--------------------')
+        time.sleep(3)
+        print('当前页面爬取结束')
+        # for index,each_product in enumerate(products):
+        #     print('current:',index+1)
+        #     each_product.click()
+        #     self.browser.switch_to_window(self.browser.window_handles[1])
+            # # 手机的标题
+            # title = self.browser.find_element_by_xpath(
+            #     '/html/body/div[8]/div/div[2]/div[1]'
+            #     ).text.strip()
+            # # 手机的颜色
+            # colors = self.browser.find_element_by_xpath(
+            #     '//*[@id="choose-attr-1"]/div[2]'
+            # ).text
+            # # 手机的规格
+            # types = self.browser.find_element_by_xpath(
+            #     '//*[@id="choose-attr-2"]/div[2]'
+            # ).text
+            # # 图片的链接
+            # images_element = self.browser.find_elements_by_xpath(
+            #     '//*[@id="spec-list"]/ul/li/img'
+            #     ) # WebElement
+            # images = [ i.get_attribute('src') for i in images_element ]
+            # print('title',title)
+            # print('color',colors)
+            # print('type',types)
+            # print('img',images)
+            # print('--------------------')
             # 关闭第二个选项卡
-            self.browser.close()
-            # 将选项卡切换回第一个
-            self.browser.switch_to_window(self.browser.window_handles[0])
-            time.sleep(1)
+            # time.sleep(2)
+            # self.browser.close()
+            # # 将选项卡切换回第一个
+            # self.browser.switch_to_window(self.browser.window_handles[0])
+            # time.sleep(1)
 
-        time.sleep(10)
+        # time.sleep(10)
 
     def main(self):
         self.parse_one_html()
