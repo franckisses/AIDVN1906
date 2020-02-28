@@ -21,16 +21,30 @@ class JdSpider:
         self.browser.find_element_by_xpath('//*[@id="key"]').send_keys(user_input)
         # 点击
         self.browser.find_element_by_xpath('//*[@id="search"]/div/div[2]/button').click()  
-        time.sleep(1)
+        status = 0 
+        while status in (0,1):
+            all_products = self.find_elements_in_current_page()
+            # 通过二级页面进行解析所有的商品数据
+            self.parse_two_html(all_products)
+            # 获取下一页的元素
+            a_tag = self.browser.find_elements_by_xpath(
+                '//*[@id="J_bottomPage"]/span[1]/a[9]'
+                )
+            # 获取下一页元素的属性
+            a_status = a_tag.get_attribute('class')
+            # 判断元素是否可以点击
+            if 'disabled' not in a_status:
+                a_tag.click()
+                if status == 1:
+                    break
+            else:
+                status = 1
+
+    def find_elements_in_current_page(self):
         self.browser.execute_script('window.scrollTo(0,document.body.scrollHeight)')
         time.sleep(5)
-        # 当前元素的节点是60个
         all_products = self.browser.find_elements_by_xpath('//li[@class="gl-item"]/div/div[1]/a/img')
-        print('找到了%d个'%(len(all_products)))
-        # 通过二级页面进行解析所有的商品数据
-        self.parse_two_html(all_products)
-    
-
+        return all_products
 
     def parse_two_html(self,products):
         """
