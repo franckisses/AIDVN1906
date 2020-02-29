@@ -87,7 +87,8 @@ class BiliibiliSpider:
                     return left
                 else:
                     continue
-        return left      
+        return left
+
     def is_pixel_match(bg,full_bg,x,y):
         """
             判断两个像素点是否匹配
@@ -120,7 +121,9 @@ class BiliibiliSpider:
             print('保存完整图片失败！')
         
         # 获取图片的缺口位置
-        self.get_length('bg.png','fullbg.png')
+        distance = self.get_length('bg.png','fullbg.png')
+        # 初速度为0的匀速加速运动
+        # 初速度不为0的匀减速/匀减速运行
 
 
 if __name__ == "__main__":
