@@ -2,12 +2,15 @@
     bilibili   滑动登陆代码
     2020-02-29 19:39
 """
+import time
+import getpass
+import base64
+
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-import time
-import getpass
+
 
 class BiliibiliSpider:
     def __init__(self,password):
@@ -50,20 +53,31 @@ class BiliibiliSpider:
             1.图片名字，
             2.节点的名字
         """
-        # full_image = ''
         time.sleep(3)
+        # 构建获取图片的js代码
         getImages = "return document.getElementsByClassName('"+canvas_class+"')[0].toDataURL('image/png');"
-        print(getImages)
         images_data = self.browser.execute_script(getImages)
+        # 截取图片内容
+        image = images_data[images_data.find(',')+1:]
+        # 对图片内容进行解码
+        image_binary = base64.b64decode(image)
+        # 存储图片
+        try:
+            with open(filename,'wb') as f:
+               f.write(image_binary)
+            return True
+        except:
+            return False
         
-        print(images_data[:20])
 
     def main(self):
         # 登陆触发检测
         self.login()
-        # 获取完整图片 以及有缺口的图片
-        self.save_bg('bg.png','geetest_canvas_bg geetest_absolute')
-
+        # 获取有缺口的图片
+        if not self.save_bg('bg.png','geetest_canvas_bg geetest_absolute'):
+            print('保存有缺口的图片上失败!')
+        if not self.save_bg('fullbg.png','geetest_canvas_fullbg geetest_fade geetest_absolute'):
+            print('保存完整图片失败！')
 
 if __name__ == "__main__":
     import getpass
