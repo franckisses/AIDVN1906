@@ -6,6 +6,7 @@ import time
 import getpass
 import base64
 
+import PIL.Image as image
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
@@ -69,6 +70,45 @@ class BiliibiliSpider:
         except:
             return False
         
+    def get_length(self,img1,img2):
+        """
+            获取缺口的像素位置
+            img1 有缺口的图片名
+            img2 没有缺口的图片名
+        """
+        bg = image.open(img1)
+        full_bg = image.open(img2)
+        left = 50 
+        # 获取图片的长度和宽度的每个像素点的位置
+        for i in range(left,bg.size[0]):
+            for j in range(bg.size[1]):
+                if not self.is_pixel_match(bg,full_bg,i,j):
+                    left = i
+                    return left
+                else:
+                    continue
+        return left      
+    def is_pixel_match(bg,full_bg,x,y):
+        """
+            判断两个像素点是否匹配
+            img1 有缺口的图片读取对象
+            img2 没有缺口的图片读取对象
+            x 相当于横坐标
+            y 相当于纵坐标
+        """
+        pix1 = bg.load()[x,y]
+        # (149, 207, 238, 255)
+        pix2 = full_bg.load()[x,y]
+        # (149, 207, 238, 255)
+        color_args = 60
+        if (abs(pix1[0]-pix2[0] < color_args) and 
+            abs(pix1[1]-pix2[1] < color_args) and 
+            abs(pix1[2]-pix2[2] < color_args)):
+            return True
+        else
+            return False
+
+
 
     def main(self):
         # 登陆触发检测
@@ -78,9 +118,16 @@ class BiliibiliSpider:
             print('保存有缺口的图片上失败!')
         if not self.save_bg('fullbg.png','geetest_canvas_fullbg geetest_fade geetest_absolute'):
             print('保存完整图片失败！')
+        
+        # 获取图片的缺口位置
+        self.get_length('bg.png','fullbg.png')
+
 
 if __name__ == "__main__":
     import getpass
     password = getpass.getpass('PASSWORD:')
     b = BiliibiliSpider(password)
     b.main()
+
+
+# Pillow                             5.4.1
