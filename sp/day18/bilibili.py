@@ -83,7 +83,7 @@ class BiliibiliSpider:
         left = 50 
         # 获取图片的长度和宽度的每个像素点的位置
         for i in range(left,bg.size[0]):
-            for j in range(50,bg.size[1]):
+            for j in range(bg.size[1]):
                 if not self.is_pixel_match(bg,full_bg,i,j):
                     left = i
                     return left
@@ -109,6 +109,7 @@ class BiliibiliSpider:
             abs(pix1[2]-pix2[2] < color_args)):
             return True
         else:
+            print(pix1,pix2)
             return False
 
     def get_trace(self,distance):
@@ -120,7 +121,7 @@ class BiliibiliSpider:
         trace_back = []
         # 存储当前移动的总距离
         curent = 0
-        middle = distance * 5 / 6 # 中间值
+        middle = distance * 4 / 5 # 中间值
         t = 0.2 # 每次加速移动或者减速移动的时间
         v = 0 # 刚开始移动的时候初速度为0 
         while curent < distance:
@@ -136,9 +137,20 @@ class BiliibiliSpider:
             trace_back.append([round(move_tem),random.choice([1,-1,0,0,0,0,2,-2])])
         return trace_back
 
-
-
-
+    def move_button(self,element,trace):
+        """
+            移动滑块
+        """
+        start_time = time.time()
+        ActionChains(self.browser).click_and_hold(element).perform()
+        for each_trace in trace:
+            x,y = each_trace
+            ActionChains(self.browser).move_by_offset(
+                xoffset = x,
+                yoffset = y
+            ).perform()
+        ActionChains(self.browser).release().perform()
+        print('滑动滑块时间为：',time.time()-start_time)
 
     def main(self):
         # 登陆触发检测
@@ -154,9 +166,18 @@ class BiliibiliSpider:
         print('---当前的偏移量是：%d--'%distance)
         # 初速度为0的匀速加速运动
         # 初速度不为0的匀减速/匀减速运行
-        trace = self.get_trace(distance)
+        trace = self.get_trace(distance - 8)
         print(trace)
-
+        # 获取滑块：
+        try:
+            element = self.browser.find_element_by_class_name(
+                'geetest_slider_button'
+                )
+        except Exception as e:
+            print('获取滑块失败')
+        # 将滑块移动到缺口处
+        self.move_button(element,trace)
+        
 
 if __name__ == "__main__":
     import getpass
@@ -178,15 +199,19 @@ if __name__ == "__main__":
 # s = v* t + 1/2 * a*t ^2 
 
 
-[[0, -2], [0, -1], [0, -2], [0, 1], [0, 2], [0, -2], [0, 2], [0, -1], [0, -2], [0, 2],
- [1, 1], [1, 1], [1, 2], [1, 1], [1, -2], [1, 2], [1, 2], [1, 1], 
- [1, -1], [1, 1], [1, -2], [1, -1], [1, 1], [1, -1], [1, -2], [1, -1],
-  [1, 1], [1, -1], [1, -2], [1, 2], [1, -1], [1, -1], [2, 2], [2, -2], 
-  [2, 2], [2, -2], [2, 2], [2, 1], [2, -2], [2, -1], [2, 2], [2, 2], 
-  [2, -2], [2, -2], [2, 1], [2, 2], [2, 2], [2, 2], [2, 2], [2, -2],
-   [2, -1], [2, 2], [2, -1], [2, -2], [2, 1], [3, 1], [3, -2], [3, 1],
-    [3, -2], [3, -1], [3, 1], [3, 1], [3, -1], [3, 2], [3, 2], [3, 2], 
-    [3, -2], [3, -1], [3, 1], [3, -1], [3, 2], [3, 2], [3, -1], [3, -1],
-     [3, -1], [3, 1], [3, 2], [4, -1], [4, 2], [4, -2], [4, 2], [4, 2], 
-     [3, -1], [3, 2], [3, 1], [3, -2], [3, -1], [3, 1], [3, 2], [3, 1]]
+# [[0, -2], [0, -1], [0, -2], [0, 1], [0, 2], [0, -2], [0, 2], [0, -1], [0, -2], [0, 2],
+#  [1, 1], [1, 1], [1, 2], [1, 1], [1, -2], [1, 2], [1, 2], [1, 1], 
+#  [1, -1], [1, 1], [1, -2], [1, -1], [1, 1], [1, -1], [1, -2], [1, -1],
+#   [1, 1], [1, -1], [1, -2], [1, 2], [1, -1], [1, -1], [2, 2], [2, -2], 
+#   [2, 2], [2, -2], [2, 2], [2, 1], [2, -2], [2, -1], [2, 2], [2, 2], 
+#   [2, -2], [2, -2], [2, 1], [2, 2], [2, 2], [2, 2], [2, 2], [2, -2],
+#    [2, -1], [2, 2], [2, -1], [2, -2], [2, 1], [3, 1], [3, -2], [3, 1],
+#     [3, -2], [3, -1], [3, 1], [3, 1], [3, -1], [3, 2], [3, 2], [3, 2], 
+#     [3, -2], [3, -1], [3, 1], [3, -1], [3, 2], [3, 2], [3, -1], [3, -1],
+#      [3, -1], [3, 1], [3, 2], [4, -1], [4, 2], [4, -2], [4, 2], [4, 2], 
+#      [3, -1], [3, 2], [3, 1], [3, -2], [3, -1], [3, 1], [3, 2], [3, 1]]
+
+# scripts
+# python.exe
+# teamview
 
