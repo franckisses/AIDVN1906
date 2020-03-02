@@ -81,7 +81,7 @@ class BiliibiliSpider:
         left = 50 
         # 获取图片的长度和宽度的每个像素点的位置
         for i in range(left,bg.size[0]):
-            for j in range(bg.size[1]):
+            for j in range(50,bg.size[1]):
                 if not self.is_pixel_match(bg,full_bg,i,j):
                     left = i
                     return left
