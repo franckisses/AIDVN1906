@@ -7,11 +7,14 @@
 # prelogin
 sinaSSOController.preloginCallBack({
     "retcode":0,
-    "servertime":1583236058,
     "pcid":"tc-36cc6fe7b42cd357f2ae71d2b15867f57131",
+    
+    "servertime":1583236058,
     "nonce":"GOMXJH",
     "pubkey":"EB2A38568661887FA180BDDB5CABD5F21C7BFD59C090CB2D245A87AC253062882729293E5506350508E7F9AA3BB77F4333231490F915F6D63C55FE2F08A49B353F444AD3993CACC02DB784ABBB8E42A9B1BBFFFB38BE18D78E87A0E41B9B8F73A928EE0CCEE1F6739884B9777E4FE9E88A1BBE495927AC4A799B3181D6442443",
     "rsakv":"1330428213",
+   
+   
     "is_openlock":0,
     "lm":1,
     "smsurl":"https:\/\/login.sina.com.cn\/sso\/msglogin?entry=weibo&mobile=18667018590&s=a247298f9835c413bffb2a3ce9cfd0f9","showpin":0,"exectime":20
@@ -30,21 +33,33 @@ servertime: 1583237135
 nonce: A8SLRY
 rsakv: 1330428213
 sp: 1c19a1afa9b07d5961289120220ee6bb98448bf3d05138bb002b0f068fb61a1df5a3df0c24054dfdb6111f51a3fec4b2e57ddecc21f2b5f16825e95bc97300442747e4cda3e73eff61a73ec39e1f68148ea52324c70c39b18574d3b11050026bd0e57cc5379d48209f4840945e57ae61db142b865faaa42385e580de32bf4a36
-prelt: 66
+prelt: 66 # prelogintime 时间差
 
 
-sp 
-sp:
-sp :
-sp = 
-sp=
 
+
+scrapy 
 
 
 
 
 
 
+
+
+
+
+
+
+engine:引擎： 处理所有的请求，以及数据流，触发事务，框架的核心
+item : 项目： 定义了爬取的数据结构，爬取的数据将会被赋值给Item对象
+spider: 爬虫程序（蜘蛛）：定义了网页爬取的起始url，以及解析网页响应对象的内容。
+schedule: 调度器： 接受引擎发过来的请求加入到队列中。
+    最后再从队列中拿出最先的请求对象给引擎。
+download:下载器: 主要发送请求，将网页内容返回给引擎。
+download middleware: 再引擎和下载器中间。可以处理请求和下载的参数。或者添加代理等
+spider middleware : 蜘蛛中间件： 主要处理数据流和新的请求
+pipelines: 负责将item中的内容做清洗以及数据存储。
 
 
 
@@ -53,3 +68,9 @@ sp=
 
 
 scrapy
+
+postman:
+prelogin :[GET]
+https://login.sina.com.cn/sso/prelogin.php?entry=weibo&callback=sinaSSOController.preloginCallBack&su=&rsakt=mod&client=ssologin.js(v1.4.19)&_=1583244721318
+login: [POST]
+https://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.4.19)
