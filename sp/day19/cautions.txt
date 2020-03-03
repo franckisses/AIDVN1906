@@ -1,0 +1,55 @@
+
+
+
+
+微博登陆
+
+# prelogin
+sinaSSOController.preloginCallBack({
+    "retcode":0,
+    "servertime":1583236058,
+    "pcid":"tc-36cc6fe7b42cd357f2ae71d2b15867f57131",
+    "nonce":"GOMXJH",
+    "pubkey":"EB2A38568661887FA180BDDB5CABD5F21C7BFD59C090CB2D245A87AC253062882729293E5506350508E7F9AA3BB77F4333231490F915F6D63C55FE2F08A49B353F444AD3993CACC02DB784ABBB8E42A9B1BBFFFB38BE18D78E87A0E41B9B8F73A928EE0CCEE1F6739884B9777E4FE9E88A1BBE495927AC4A799B3181D6442443",
+    "rsakv":"1330428213",
+    "is_openlock":0,
+    "lm":1,
+    "smsurl":"https:\/\/login.sina.com.cn\/sso\/msglogin?entry=weibo&mobile=18667018590&s=a247298f9835c413bffb2a3ce9cfd0f9","showpin":0,"exectime":20
+})
+# login
+su: MTg2NjcwMTg1OTA=  # 手机号
+servertime: 1583236498 # 时间戳
+nonce: GOMXJH # prelogin 已经获取到了
+rsakv: 1330428213 # prelogin 已经获取到了
+sp: 648e8cf8b24f617c8b0c9257b960794dc9c40a15eb8c1d602311ca0664ef1c350963063b11303a5686d1d417c8bc5b92736ba74cbed054a2c309f60659cb16722aeb60f4cfeba8b59075df432d3ab652a64cc34795b8c40e4a402bb5fec0007574dea56f00900c4e53045ba44b7f3175c3022a814b94954d1ac4f12a021f2658
+prelt: 214
+
+# login
+su: MTg2NjcwMTg1OTA=
+servertime: 1583237135
+nonce: A8SLRY
+rsakv: 1330428213
+sp: 1c19a1afa9b07d5961289120220ee6bb98448bf3d05138bb002b0f068fb61a1df5a3df0c24054dfdb6111f51a3fec4b2e57ddecc21f2b5f16825e95bc97300442747e4cda3e73eff61a73ec39e1f68148ea52324c70c39b18574d3b11050026bd0e57cc5379d48209f4840945e57ae61db142b865faaa42385e580de32bf4a36
+prelt: 66
+
+
+sp 
+sp:
+sp :
+sp = 
+sp=
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+scrapy
