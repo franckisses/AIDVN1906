@@ -56,11 +56,12 @@ class BiliibiliSpider:
             1.图片名字，
             2.节点的名字
         """
-        time.sleep(3)
+        time.sleep(2)
         # 构建获取图片的js代码
         getImages = "return document.getElementsByClassName('"+canvas_class+"')[0].toDataURL('image/png');"
         images_data = self.browser.execute_script(getImages)
         # 截取图片内容
+        time.sleep(1)
         image = images_data[images_data.find(',')+1:]
         # 对图片内容进行解码
         image_binary = base64.b64decode(image)
@@ -80,15 +81,14 @@ class BiliibiliSpider:
         """
         bg = image.open(img1)
         full_bg = image.open(img2)
-        left = 50 
+        left = 43
         # 获取图片的长度和宽度的每个像素点的位置
+        
         for i in range(left,bg.size[0]):
             for j in range(bg.size[1]):
                 if not self.is_pixel_match(bg,full_bg,i,j):
                     left = i
                     return left
-                else:
-                    continue
         return left
 
     def is_pixel_match(self,bg,full_bg,x,y):
@@ -100,16 +100,13 @@ class BiliibiliSpider:
             y 相当于纵坐标
         """
         pix1 = bg.load()[x,y]
-        # (149, 207, 238, 255)
         pix2 = full_bg.load()[x,y]
-        # (149, 207, 238, 255)
         color_args = 60
-        if (abs(pix1[0]-pix2[0] < color_args) and 
-            abs(pix1[1]-pix2[1] < color_args) and 
-            abs(pix1[2]-pix2[2] < color_args)):
+        # 每个点的像素的差值的绝对值，如果都小于阈值的话那么我们认为不是缺口处
+        if (abs(pix1[0] - pix2[0]) < color_args) and (abs(pix1[1] - pix2[1]) < color_args) and (abs(
+                pix1[2] - pix2[2]) < color_args):
             return True
         else:
-            print(pix1,pix2)
             return False
 
     def get_trace(self,distance):
@@ -122,7 +119,10 @@ class BiliibiliSpider:
         # 存储当前移动的总距离
         curent = 0
         middle = distance * 4 / 5 # 中间值
-        t = 0.2 # 每次加速移动或者减速移动的时间
+        if distance > 110:
+            t = 0.21
+        else:
+            t = 0.15 # 每次加速移动或者减速移动的时间
         v = 0 # 刚开始移动的时候初速度为0 
         while curent < distance:
             if curent < middle:
@@ -134,7 +134,7 @@ class BiliibiliSpider:
             v = v0 + a * t# 当前的速度
             move_tem = v*t + 1/2*a*t*t # 在单位时间内的移动距离
             curent += move_tem # 计算当前的位移
-            trace_back.append([round(move_tem),random.choice([1,-1,0,0,0,0,2,-2])])
+            trace_back.append([round(move_tem),random.choice([1,-1,0,0,0,0])])
         return trace_back
 
     def move_button(self,element,trace):
@@ -143,6 +143,7 @@ class BiliibiliSpider:
         """
         start_time = time.time()
         ActionChains(self.browser).click_and_hold(element).perform()
+        trace = trace[::-1]
         for each_trace in trace:
             x,y = each_trace
             ActionChains(self.browser).move_by_offset(
@@ -166,7 +167,7 @@ class BiliibiliSpider:
         print('---当前的偏移量是：%d--'%distance)
         # 初速度为0的匀速加速运动
         # 初速度不为0的匀减速/匀减速运行
-        trace = self.get_trace(distance - 8)
+        trace = self.get_trace(distance - 9)
         print(trace)
         # 获取滑块：
         try:

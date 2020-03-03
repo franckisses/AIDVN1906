@@ -6,3 +6,123 @@
     1.b站滑动登陆
     2.百度翻译-js逆向
     3.叮当快药登陆-js逆向
+
+
+from: en
+to: zh
+query: hi
+transtype: realtime
+simple_means_flag: 3
+sign: 742533.1030068
+token: 8eb9457e18f9c68e295106e895288beb
+domain: common
+
+from: en
+to: zh
+query: test
+transtype: realtime
+simple_means_flag: 3
+sign: 431039.159886
+token: 8eb9457e18f9c68e295106e895288beb
+       8eb9457e18f9c68e295106e895288beb
+domain: common
+
+
+http://passport.ddky.com/user/rest.htm?
+sign=CF7ACD788A69668933D0A39B5B5CE162&
+
+method=ddsy.user.reg.login&
+password=f4c095bffc57ea7d5a070d8fdf25f00e&
+plat=H5&
+platform=H5&
+t=2020-3-2%2022:22:28&
+userName=18667018590&
+v=1.0&
+versionName=4.6.0&
+
+callback=jQuery1111024403465959329163_1583158890647
+
+
+e10adc3949ba59abbe56e057f20f883e
+e10adc3949ba59abbe56e057f20f883e
+
+
+f = t.get("method") + p + r, y = MD5(f), v = e + "?sign=" + y,
+sign  -> y -> f - > t p r  
+t.get('method') - > ddsy.user.reg.login
+p ->
+"methodddsy.user.reg.login
+password=e10adc3949ba59abbe56e057f20f883e
+plat=H5
+platform=H5
+t=2020-3-2 22:29:22
+userName=18667018591
+v=1.0
+versionName=4.6.0"
+
+
+method=ddsy.user.reg.login&
+password=f4c095bffc57ea7d5a070d8fdf25f00e&
+plat=H5&
+platform=H5&
+t=2020-3-2%2022:22:28&
+userName=18667018590&
+v=1.0&
+versionName=4.6.0&
+
+
+
+entry: weibo
+gateway: 1
+from: 
+savestate: 7
+qrcode_flag: false
+useticket: 1
+pagerefer: https://login.sina.com.cn/crossdomain2.php?action=logout&r=https%3A%2F%2Fpassport.weibo.com%2Fwbsso%2Flogout%3Fr%3Dhttps%253A%252F%252Fweibo.com%26returntype%3D1
+vsnf: 1
+su: MTg2NjcwMTg1OTA=
+service: miniblog
+servertime: 1583212866
+nonce: RRZCQ2
+pwencode: rsa2
+rsakv: 1330428213
+sp: 51c63dd92469f7d663bcb51a196a654d077409ff51abb81a0e925b8f577ad469ebfcf30d361977139fdbe039e59d1b2e8437f7c9b1f5263d024565d3dd013b6bd5d0432c28f2dd4fb7e43f14614405360601f28af6b668b82958ff0f9cdf2414d19acf6eb9b8fdb781ef540f484eb46cc336bbbb6ef2f3c8f8bd6bff4c88c330
+sr: 1920*1080
+encoding: UTF-8
+prelt: 47
+url: https://weibo.com/ajaxlogin.php?framelogin=1&callback=parent.sinaSSOController.feedBackUrlCallBack
+returntype: META
+
+# prelogin
+retcode: 0
+servertime: 1583213100
+pcid: "yf-8bd669968afbaedd509ed5dac3a751db91cb"
+nonce: "NHOXYQ"
+pubkey: "EB2A38568661887FA180BDDB5CABD5F21C7BFD59C090CB2D245A87AC253062882729293E5506350508E7F9AA3BB77F4333231490F915F6D63C55FE2F08A49B353F444AD3993CACC02DB784ABBB8E42A9B1BBFFFB38BE18D78E87A0E41B9B8F73A928EE0CCEE1F6739884B9777E4FE9E88A1BBE495927AC4A799B3181D6442443"
+rsakv: "1330428213"
+uid: "5057766658"
+exectime: 29
+
+
+
+
+prelogin 接口
+
+https://login.sina.com.cn/sso/prelogin.php?
+entry=weibo
+&callback=sinaSSOController.preloginCallBack&
+su=&
+rsakt=mod&
+client=ssologin.js(v1.4.19)&
+_=1583218253770
+
+
+
+sinaSSOController.preloginCallBack(
+    {"retcode":0,
+    "servertime":1583218558,
+    "pcid":"yf-1c29cefde9942db7482080ab60b812b47c96",
+    "nonce":"TO6XPZ",
+    "pubkey":"EB2A38568661887FA180BDDB5CABD5F21C7BFD59C090CB2D245A87AC253062882729293E5506350508E7F9AA3BB77F4333231490F915F6D63C55FE2F08A49B353F444AD3993CACC02DB784ABBB8E42A9B1BBFFFB38BE18D78E87A0E41B9B8F73A928EE0CCEE1F6739884B9777E4FE9E88A1BBE495927AC4A799B3181D6442443",
+    "rsakv":"1330428213",
+    "exectime":17})
