@@ -41,10 +41,20 @@ NEWSPIDER_MODULE = 'MAOYAN.spiders'
 ROBOTSTXT_OBEY = False
 
 DEFAULT_REQUEST_HEADERS = {
-  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-  'Accept-Language': 'en',
-  'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36',
-  ''
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+  'Accept-Language': 'zh,zh-CN;q=0.9,en;q=0.8',
+  'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'
+  # 'Cookie':'__mta=146102795.1582805409453.1583416792975.1583416798673.36; uuid_n_v=v1; uuid=17D894E0595A11EAAB15BF1175455FAC988932E2E05D46B5A548E36A512324E2; _lxsdk_cuid=170868ddd51c8-03003f573d71ae-39697407-1fa400-170868ddd52c8; _lxsdk=17D894E0595A11EAAB15BF1175455FAC988932E2E05D46B5A548E36A512324E2; mojo-uuid=8f9f7a91b7f41d43494fdb0c14b7f5f2; _csrf=889bef00926fe74f34b29f5af571e30a4a9685b78ba6dfcd75727a2a09fcd6a1; Hm_lvt_703e94591e87be68cc8da0da7cbd0be2=1582805409,1583396209; __mta=146102795.1582805409453.1583410507705.1583410519181.20; mojo-session-id={"id":"df2a4696d103547d1b2208beb8dd61d4","time":1583415993441}; mojo-trace-id=11; Hm_lpvt_703e94591e87be68cc8da0da7cbd0be2=1583416798; _lxsdk_s=170aaf2a465-ddf-45f-1e5%7C%7C15',
+  # 'Host':'maoyan.com',
+  # 'Pragma': 'no-cache',
+  # 'Sec-Fetch-Dest': 'document',
+  # 'Sec-Fetch-Mode': 'navigate',
+  # 'Sec-Fetch-Site': 'none',
+  # 'Sec-Fetch-User': '?1',
+  # 'Upgrade-Insecure-Requests': '1',
+  # 'Cache-Control': 'no-cache',
+  # 'Referer':'https://maoyan.com/board'
+
 }
 LOG_LEVEL = 'WARNING'
 LOG_FILE = 'maoyan.log'
