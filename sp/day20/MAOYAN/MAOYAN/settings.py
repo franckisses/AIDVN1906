@@ -80,7 +80,8 @@ LOG_FILE = 'maoyan.log'
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'MAOYAN.pipelines.MaoyanPipeline': 300,
+  #  'MAOYAN.pipelines.MaoyanPipeline': 300,
+   'MAOYAN.pipelines.MaoYanMysqlPipeline':300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

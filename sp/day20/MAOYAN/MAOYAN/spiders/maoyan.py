@@ -44,6 +44,8 @@ class MaoyanSpider(scrapy.Spider):
                 callback= self.parse
             )
     def parse(self,response):
+        # with open('test.html','w') as f:
+        #     f.write(response.text)
         all_movie_elements = response.xpath('//dl[@class="board-wrapper"]/dd')
         # print(all_movie_elements)
         for each_element in all_movie_elements:
