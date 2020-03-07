@@ -24,4 +24,3 @@ class SoSpider(scrapy.Spider):
             item['title'] = img['title'] 
             item['img_url'] = img['qhimg_url']
             yield item
-        #  中间件

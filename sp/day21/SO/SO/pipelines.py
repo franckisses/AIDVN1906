@@ -8,6 +8,7 @@
 from scrapy.pipelines.images import ImagesPipeline
 import scrapy
 import os
+from urllib.request import urlretrieve
 
 class SoPipeline(ImagesPipeline):
     def get_media_requests(self, item, info):
@@ -21,5 +22,5 @@ class SoPipeline(ImagesPipeline):
         media_ext = os.path.splitext(request.url)[1]
         return 'images/%s%s' % (name, media_ext)
 
-# 存储地址
-# IMAGES_STORE = '/Users/gongyan/Desktop/AIDVN1906/sp/images/fdsfsdafa.jpg'
+# 存储地址 settings.py中
+# IMAGES_STORE = '/Users/gongyan/Desktop/AIDVN1906/sp/'
