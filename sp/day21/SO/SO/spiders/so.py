@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 import json
-
+from ..items import SoItem
 
 class SoSpider(scrapy.Spider):
     name = 'so'
@@ -20,6 +20,8 @@ class SoSpider(scrapy.Spider):
     def parse(self, response):
         data = json.loads(response.text)
         for img in data['list']:
-            img['title']
-            img['qhimg_downurl']
-        # 中间件
+            item = SoItem()
+            item['title'] = img['title'] 
+            item['img_url'] = img['qhimg_url']
+            yield item
+        #  中间件

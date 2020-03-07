@@ -11,4 +11,7 @@ import scrapy
 class SoItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    # 图片的名称
+    title = scrapy.Field()
+    # 图片的下载链接
+    img_url = scrapy.Field()
