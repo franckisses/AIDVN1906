@@ -1,0 +1,10 @@
+
+
+daomubiji.com
+
+# 首页匹配每部链接
+    xpath '//li[contains(@id,'menu-item-20')]/a'
+# 匹配每部小说中每个章节链接
+    xpath '//article/a'
+# 文章内容：
+    xpath '//article[@class="article-content"]/p'

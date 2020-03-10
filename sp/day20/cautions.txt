@@ -1,0 +1,15 @@
+
+https://liushilive.gitee.io/css_xpath/
+
+今日内容：
+    轻解罗裳-scrapy
+
+# 创建爬虫项目
+scrapy startproject BAIDU
+cd BAIDU
+# 创建爬虫
+scrapy genspider baidu baidu.com
+
+
+# 在settings的同一级目录下运行
+scrapy crawl baidu

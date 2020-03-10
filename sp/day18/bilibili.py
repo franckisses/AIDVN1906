@@ -102,8 +102,9 @@ class BiliibiliSpider:
         pix1 = bg.load()[x,y]
         pix2 = full_bg.load()[x,y]
         color_args = 60
-        # 每个点的像素的差值的绝对值，如果都小于阈值的话那么我们认为不是缺口处
-        if (abs(pix1[0] - pix2[0]) < color_args) and (abs(pix1[1] - pix2[1]) < color_args) and (abs(
+        #  每个点的像素的差值的绝对值，如果都小于阈值的话那么我们认为不是缺口处
+        #  两个像素的绝对值差值小于阈值
+        if  (abs(pix1[0] - pix2[0]) < color_args) and (abs(pix1[1] - pix2[1]) < color_args) and (abs(
                 pix1[2] - pix2[2]) < color_args):
             return True
         else:

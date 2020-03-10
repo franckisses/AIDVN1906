@@ -62,6 +62,13 @@ spider middleware : 蜘蛛中间件： 主要处理数据流和新的请求
 pipelines: 负责将item中的内容做清洗以及数据存储。
 
 
+# TODO 通用爬虫 crawlspider 
+
+# 今日内容：
+    #TODO scrapy 数据持久化
+    #TODO scrapy 深度爬取
+    #TODO scrapy 官方管道使用
+
 
 
 
